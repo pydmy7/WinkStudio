@@ -23,7 +23,8 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+RESOURCES += $$PWD/resource/theme/dark/darkstyle.qrc
+RESOURCES += $$PWD/resource/theme/light/lightstyle.qrc
 
 include(3rdparty/3rdparty.pri)
-
 include(config/config.pri)
