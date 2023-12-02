@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>WinkStudio</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_file">
+    <property name="title">
+     <string>文件</string>
+    </property>
+    <addaction name="action_set"/>
+   </widget>
+   <widget class="QMenu" name="menu_help">
+    <property name="title">
+     <string>帮助</string>
+    </property>
+    <addaction name="action_feedback"/>
+    <addaction name="action_about"/>
+   </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>主题</string>
+    </property>
+    <addaction name="action_dark"/>
+    <addaction name="action_light"/>
+   </widget>
+   <addaction name="menu_file"/>
+   <addaction name="menu_help"/>
+   <addaction name="menu"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="action_set">
+   <property name="text">
+    <string>设置</string>
+   </property>
+  </action>
+  <action name="action_feedback">
+   <property name="text">
+    <string>反馈</string>
+   </property>
+  </action>
+  <action name="action_about">
+   <property name="text">
+    <string>关于</string>
+   </property>
+  </action>
+  <action name="action_dark">
+   <property name="text">
+    <string>dark</string>
+   </property>
+  </action>
+  <action name="action_light">
+   <property name="text">
+    <string>light</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -10,21 +10,24 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
-
-HEADERS += \
-    mainwindow.h
-
-FORMS += \
-    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-RESOURCES += $$PWD/resource/theme/dark/darkstyle.qrc
-RESOURCES += $$PWD/resource/theme/light/lightstyle.qrc
+###########################################
 
-include(3rdparty/3rdparty.pri)
-include(config/config.pri)
+TEMPLATE = app
+
+# 可执行文件图标
+RC_ICONS = wink.ico
+
+RESOURCES += $$PWD/resource/theme/dark/darkstyle.qrc \
+    $$PWD/resource/theme/light/lightstyle.qrc
+
+include(mainwindow/mainwindow.pro)
+include(dialogabout/dialogabout.pro)
+include(3rdparty/3rdparty.pro)
+include(config/config.pro)
+

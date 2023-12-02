@@ -19,5 +19,15 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    void initMember();
+    void initSignalSlots();
+
+    QString themestyle;
+    void initConfig();
+
+private slots:
+    void switchDarkTheme();
+    void switchLightTheme();
 };
 #endif // MAINWINDOW_H

@@ -1,11 +1,12 @@
 #include "config.h"
 
 #include <QFile>
-#include <QString>
 #include <QTextStream>
 #include <QApplication>
 
 #include <iostream>
+
+namespace config {
 
 void switchTheme(const QString& theme) {
     QString path = QString(":/theme/%0/%0style.qss").arg(theme);
@@ -17,4 +18,6 @@ void switchTheme(const QString& theme) {
         QTextStream ts(&f);
         qApp->setStyleSheet(ts.readAll());
     }
+}
+
 }
