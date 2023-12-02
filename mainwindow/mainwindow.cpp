@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include "config/config.h"
+#include "dialogabout/dialogabout.h"
 
 #include <QDesktopServices>
 #include <QUrl>
@@ -33,6 +34,10 @@ void MainWindow::initSignalSlots()
     connect(ui->action_light, &QAction::triggered, this, &MainWindow::switchLightTheme);
     connect(ui->action_feedback, &QAction::triggered, []() {
         QDesktopServices::openUrl(QUrl(config::url_issues));
+    });
+    connect(ui->action_about, &QAction::triggered, this, [this]() {
+        DialogAbout about(this);
+        about.exec();
     });
 }
 
