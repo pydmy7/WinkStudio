@@ -17,6 +17,9 @@ public:
 
 private:
     Ui::DialogAbout *ui;
+
+    void initMembers();
+    void initSignalSlots();
 };
 
 #endif // DIALOGABOUT_H

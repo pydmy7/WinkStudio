@@ -29,6 +29,7 @@ RESOURCES += $$PWD/resource/theme/dark/darkstyle.qrc \
 
 include(mainwindow/mainwindow.pro)
 include(dialogabout/dialogabout.pro)
+include(dialogset/dialogset.pro)
 include(3rdparty/3rdparty.pro)
 include(config/config.pro)
 

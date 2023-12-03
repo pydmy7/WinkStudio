@@ -3,6 +3,7 @@
 
 #include "config/config.h"
 #include "dialogabout/dialogabout.h"
+#include "dialogset/dialogset.h"
 
 #include <QDesktopServices>
 #include <QUrl>
@@ -38,6 +39,10 @@ void MainWindow::initSignalSlots()
     connect(ui->action_about, &QAction::triggered, this, [this]() {
         DialogAbout about(this);
         about.exec();
+    });
+    connect(ui->action_set, &QAction::triggered, this, [this]() {
+        DialogSet set(this);
+        set.exec();
     });
 }
 

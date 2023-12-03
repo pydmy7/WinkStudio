@@ -15,7 +15,7 @@ inline void init() {
     QCoreApplication::setOrganizationName("pydmy7");
     QCoreApplication::setOrganizationDomain("https://github.com/pydmy7");
     QCoreApplication::setApplicationName("WinkStudio");
-    QCoreApplication::setApplicationVersion("1.0");
+    QCoreApplication::setApplicationVersion("1.0(64bit)");
 }
 
 int main(int argc, char *argv[])
