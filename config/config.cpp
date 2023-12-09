@@ -3,12 +3,14 @@
 #include <QFile>
 #include <QTextStream>
 #include <QApplication>
+#include <QSettings>
 
 #include <iostream>
 
 namespace config {
 
-void switchTheme(const QString& theme) {
+void switchTheme(const QString& theme)
+{
     QString path = QString(":/theme/%0/%0style.qss").arg(theme);
     QFile f(path);
     if (!f.exists()) {
@@ -20,4 +22,21 @@ void switchTheme(const QString& theme) {
     }
 }
 
+QString readConfigFileTheme()
+{
+    QSettings settings("config.ini", QSettings::IniFormat);
+    settings.beginGroup("Config");
+    QString theme = settings.value("Theme").toString();
+    settings.endGroup();
+    return theme;
 }
+
+void writeConfigFileTheme(const QString& theme)
+{
+    QSettings settings("config.ini", QSettings::IniFormat);
+    settings.beginGroup("Config");
+    settings.setValue("Theme", theme);
+    settings.endGroup();
+}
+
+}  // namespace config

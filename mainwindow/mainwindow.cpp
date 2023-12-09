@@ -7,6 +7,10 @@
 
 #include <QDesktopServices>
 #include <QUrl>
+#include <QFile>
+
+#include <thread>
+#include <future>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -26,7 +30,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::initMember()
 {
-
+    m_themestyle = "dark";
 }
 
 void MainWindow::initSignalSlots()
@@ -48,26 +52,31 @@ void MainWindow::initSignalSlots()
 
 void MainWindow::initConfig()
 {
-    themestyle = "dark";  // read config file get
-    config::switchTheme(themestyle);
+    if (!QFile("config.ini").exists()) {
+        std::thread(config::writeConfigFileTheme, std::ref(m_themestyle)).detach();
+    } else {
+        std::future<QString> futureres = std::async(config::readConfigFileTheme);
+        m_themestyle = futureres.get();
+    }
+    config::switchTheme(m_themestyle);
 }
 
 void MainWindow::switchDarkTheme()
 {
-    if (themestyle == "dark") {
+    if (m_themestyle == "dark") {
         return;
     }
-    themestyle = "dark";
-    // write config file
-    config::switchTheme(themestyle);
+    m_themestyle = "dark";
+    config::switchTheme(m_themestyle);
+    std::thread(config::writeConfigFileTheme, std::ref(m_themestyle)).detach();
 }
 
 void MainWindow::switchLightTheme()
 {
-    if (themestyle == "light") {
+    if (m_themestyle == "light") {
         return;
     }
-    themestyle = "light";
-    // write config file
-    config::switchTheme(themestyle);
+    m_themestyle = "light";
+    config::switchTheme(m_themestyle);
+    std::thread(config::writeConfigFileTheme, std::ref(m_themestyle)).detach();
 }

@@ -22,9 +22,9 @@ private:
 
     void initMember();
     void initSignalSlots();
-
-    QString themestyle;
     void initConfig();
+
+    QString m_themestyle;
 
 private slots:
     void switchDarkTheme();
