@@ -18,7 +18,6 @@ public:
 private:
     Ui::DialogSet *ui;
 
-    QString m_diraddress;
     void initMembers();
     void initSignalSlots();
 };

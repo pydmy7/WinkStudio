@@ -1,17 +1,36 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include <QString>
+#include <QtGlobal>
+
+QT_BEGIN_NAMESPACE
+class QString;
+QT_END_NAMESPACE
+
+namespace std {
+class mutex;
+}
 
 namespace config {
 
-// 加const会warning，不加const会error，好好好
-const QString url_issues = "https://github.com/pydmy7/WinkStudio/issues";
+extern std::mutex mtx;
+
+extern const QString url_issues;
+
+extern QString theme;
+extern QString fileaddress;
+
+void initConfig();
 
 void switchTheme(const QString& theme);
+void readTheme();
+void writeTheme(const QString& theme);
 
-QString readConfigFileTheme();
-void writeConfigFileTheme(const QString& theme);
+void readFileAddress();
+void writeFileAddress(const QString& fileaddress);
+
+void readAllConfigs();
+void writeAllConfigs();
 
 }
 

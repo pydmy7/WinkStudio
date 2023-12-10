@@ -20,11 +20,9 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    void initMember();
+    void initMembers();
     void initSignalSlots();
     void initConfig();
-
-    QString m_themestyle;
 
 private slots:
     void switchDarkTheme();
