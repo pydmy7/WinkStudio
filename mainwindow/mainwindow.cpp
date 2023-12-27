@@ -31,6 +31,23 @@ void MainWindow::initMembers()
 
 void MainWindow::initSignalSlots()
 {
+    connect(ui->btn_start, &QPushButton::clicked, this, [this]() {
+        ui->btn_start->setEnabled(false);
+        ui->btn_pausecontinue->setEnabled(true);
+        ui->btn_pausecontinue->setText("pause");
+        ui->btn_stop->setEnabled(true);
+    });
+    connect(ui->btn_pausecontinue, &QPushButton::clicked, this, [this]() {
+        QString curtext = ui->btn_pausecontinue->text();
+        curtext = curtext == "pause" ? "continue" : "pause";
+        ui->btn_pausecontinue->setText(curtext);
+    });
+    connect(ui->btn_stop, &QPushButton::clicked, this, [this]() {
+        ui->btn_start->setEnabled(true);
+        ui->btn_pausecontinue->setEnabled(false);
+        ui->btn_pausecontinue->setText("pause/continue");
+        ui->btn_stop->setEnabled(false);
+    });
     connect(ui->action_dark, &QAction::triggered, this, &MainWindow::switchDarkTheme);
     connect(ui->action_light, &QAction::triggered, this, &MainWindow::switchLightTheme);
     connect(ui->action_feedback, &QAction::triggered, []() {
