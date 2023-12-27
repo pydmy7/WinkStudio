@@ -23,9 +23,10 @@ TEMPLATE = app
 # 可执行文件图标
 RC_ICONS = wink.ico
 
-RESOURCES += $$PWD/resource/theme/dark/darkstyle.qrc \
-    $$PWD/resource/theme/light/lightstyle.qrc \
-    resource/images/images.qrc
+RESOURCES += \
+    $$PWD/resource/themes/dark/darkstyle.qrc \
+    $$PWD/resource/themes/light/lightstyle.qrc \
+    $$PWD/resource/images/images.qrc
 
 include(mainwindow/mainwindow.pro)
 include(dialogabout/dialogabout.pro)

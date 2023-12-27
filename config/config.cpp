@@ -36,7 +36,7 @@ void initConfig()
 
 void switchTheme(const QString& theme)
 {
-    QString path = QString(":/theme/%0/%0style.qss").arg(theme);
+    QString path = QString(":/themes/%0/%0style.qss").arg(theme);
     QFile f(path);
     if (!f.exists()) {
         std::cerr << "Unable to set stylesheet, file not found.\n";
