@@ -7,6 +7,8 @@ QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
 }
+class QTimer;
+class QLCDNumber;
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -19,6 +21,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    int m_totseconds;
+    QTimer* m_timer;
+    QLCDNumber* m_lcdnumber;
 
     void initMembers();
     void initSignalSlots();
