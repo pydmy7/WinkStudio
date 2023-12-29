@@ -1,7 +1,7 @@
 TEMPLATE = lib
 
 HEADERS += \
-    $$PWD/config.h
+    $$PWD/config.hpp
 
 SOURCES += \
     $$PWD/config.cpp

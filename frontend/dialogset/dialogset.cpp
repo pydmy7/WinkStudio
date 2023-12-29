@@ -1,7 +1,7 @@
-#include "dialogset.h"
+#include "dialogset.hpp"
 #include "ui_dialogset.h"
 
-#include "config/config.h"
+#include "config/config.hpp"
 
 #include <QCoreApplication>
 #include <QFileDialog>

@@ -1,4 +1,4 @@
-#include "frontend/mainwindow/mainwindow.h"
+#include "frontend/mainwindow/mainwindow.hpp"
 
 #include <QApplication>
 #include <QSharedMemory>

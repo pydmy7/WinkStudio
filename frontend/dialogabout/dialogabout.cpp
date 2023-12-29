@@ -1,4 +1,4 @@
-#include "dialogabout.h"
+#include "dialogabout.hpp"
 #include "ui_dialogabout.h"
 
 #include <QCoreApplication>

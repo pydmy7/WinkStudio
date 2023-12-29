@@ -4,7 +4,7 @@ FORMS += \
     $$PWD/dialogset.ui
 
 HEADERS += \
-    $$PWD/dialogset.h
+    $$PWD/dialogset.hpp
 
 SOURCES += \
     $$PWD/dialogset.cpp

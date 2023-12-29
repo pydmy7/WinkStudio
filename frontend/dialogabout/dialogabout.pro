@@ -4,7 +4,7 @@ FORMS += \
     $$PWD/dialogabout.ui
 
 HEADERS += \
-    $$PWD/dialogabout.h
+    $$PWD/dialogabout.hpp
 
 SOURCES += \
     $$PWD/dialogabout.cpp
