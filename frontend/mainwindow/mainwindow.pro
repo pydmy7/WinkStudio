@@ -1,4 +1,4 @@
-# INCLUDEPATH += mainwindow
+TEMPLATE = lib
 
 FORMS += \
     $$PWD/mainwindow.ui

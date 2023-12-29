@@ -2,8 +2,8 @@
 #include "ui_mainwindow.h"
 
 #include "config/config.h"
-#include "dialogabout/dialogabout.h"
-#include "dialogset/dialogset.h"
+#include "frontend/dialogabout/dialogabout.h"
+#include "frontend/dialogset/dialogset.h"
 
 #include <QDesktopServices>
 #include <QUrl>
