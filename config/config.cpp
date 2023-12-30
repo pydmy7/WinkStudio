@@ -9,6 +9,7 @@
 #include <iostream>
 #include <thread>
 #include <mutex>
+#include <future>
 
 #include <QDebug>
 
@@ -27,9 +28,9 @@ void initConfig()
     fileaddress = QCoreApplication::applicationDirPath();
 
     if (!QFile("config.ini").exists()) {
-        std::thread(config::writeAllConfigs).join();
+        config::writeAllConfigs();
     } else {
-        std::thread(config::readAllConfigs).join();
+        config::readAllConfigs();
     }
     config::switchTheme(config::theme);
 }
@@ -50,8 +51,6 @@ void switchTheme(const QString& theme)
 
 void readTheme()
 {
-    std::lock_guard<std::mutex> lock(mtx);
-
     QSettings settings("config.ini", QSettings::IniFormat);
     settings.beginGroup("Config");
     config::theme = settings.value("Theme").toString();
@@ -72,8 +71,6 @@ void writeTheme(const QString& theme)
 
 void readFileAddress()
 {
-    std::lock_guard<std::mutex> lock(mtx);
-
     QSettings settings("config.ini", QSettings::IniFormat);
     settings.beginGroup("Config");
     config::fileaddress = settings.value("FileAddress").toString();
@@ -94,14 +91,18 @@ void writeFileAddress(const QString &fileaddress)
 
 void readAllConfigs()
 {
-    readTheme();
-    readFileAddress();
+    std::future<void> futuretheme = std::async(config::readTheme);
+    std::future<void> futurefileaddress = std::async(config::readFileAddress);
+    futuretheme.get();
+    futurefileaddress.get();
 }
 
 void writeAllConfigs()
 {
-    writeTheme(theme);
-    writeFileAddress(fileaddress);
+    std::future<void> futuretheme = std::async(config::writeTheme, std::ref(theme));
+    std::future<void> futurefileaddress = std::async(config::writeFileAddress, std::ref(fileaddress));
+    futuretheme.get();
+    futurefileaddress.get();
 }
 
 }  // namespace config
