@@ -33,25 +33,32 @@ void ScreenRecoderWidget::initMembers()
 
 void ScreenRecoderWidget::initSignalSlots()
 {
-    connect(ui->btn_start, &QPushButton::clicked, this, [this]() {
-        ui->btn_start->setEnabled(false);
-        ui->btn_pausecontinue->setEnabled(true);
-        ui->btn_pausecontinue->setText("pause");
-        ui->btn_stop->setEnabled(true);
-        m_timer->start(1E3);
-        m_totseconds = 0;
-        ui->label->clear();
-    });
-    connect(ui->btn_pausecontinue, &QPushButton::clicked, this, [this]() {
-        QString curtext = ui->btn_pausecontinue->text();
-        curtext = curtext == "pause" ? "continue" : "pause";
-        ui->btn_pausecontinue->setText(curtext);
+    connect(ui->btn_startpause, &QPushButton::clicked, this, [this]() {
+        QString curtext = ui->btn_startpause->text();
+        if (curtext == "start") {
+            // recoder->start();
+            ui->btn_startpause->setText("pause");
+            ui->btn_stop->setEnabled(true);
+            m_timer->start(1E3);
+            m_totseconds = 0;
+            ui->label->setText("正在录制屏幕中...");
+        } else if (curtext == "pause") {
+            // recoder->pause();
+            ui->btn_startpause->setText("continue");
+            m_timer->stop();
+            ui->label->setText("录制屏幕已暂停~~~");
+        } else {
+            // recoder->continue();
+            assert(curtext == "continue");
+            ui->btn_startpause->setText("pause");
+            m_timer->start(1E3);
+            ui->label->setText("正在录制屏幕中...");
+        }
     });
     connect(ui->btn_stop, &QPushButton::clicked, this, [this]() {
-        ui->btn_start->setEnabled(true);
-        ui->btn_pausecontinue->setEnabled(false);
-        ui->btn_pausecontinue->setText("pause/continue");
+        // recoder->stop();
         ui->btn_stop->setEnabled(false);
+        ui->btn_startpause->setText("start");
         m_timer->stop();
         ui->lcdnumber->display(0);
         QString text = QString("共用时%0秒").arg(m_totseconds);

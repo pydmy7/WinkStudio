@@ -6,6 +6,7 @@
 #include "frontend/dialogset/dialogset.hpp"
 #include "frontend/screenrecoderwidget/screenrecoderwidget.hpp"
 #include "frontend/videoplayerwidget/videoplayerwidget.hpp"
+#include "frontend/audioplayerwidget/audioplayerwidget.hpp"
 
 #include <QDesktopServices>
 #include <QUrl>
@@ -35,6 +36,10 @@ MainWindow::~MainWindow()
         delete m_videoplayerwidget;
         m_videoplayerwidget = nullptr;
     }
+    if (m_audioplayerwidget != nullptr) {
+        delete m_audioplayerwidget;
+        m_audioplayerwidget = nullptr;
+    }
 }
 
 void MainWindow::initMembers()
@@ -47,6 +52,8 @@ void MainWindow::initMembers()
 
     m_screenrecoderwidget = new ScreenRecoderWidget(this);
     m_videoplayerwidget = new VideoPlayerWidget(this);
+    m_audioplayerwidget = new AudioPlayerWidget(this);
+
     // ui->stackedwidget->clear();
     for (int i = ui->stackedwidget->count() - 1; i >= 0; --i) {
         QWidget* widget = ui->stackedwidget->widget(i);
@@ -56,6 +63,7 @@ void MainWindow::initMembers()
     // ui->stackedwidget->clear();
     ui->stackedwidget->addWidget(m_screenrecoderwidget);
     ui->stackedwidget->addWidget(m_videoplayerwidget);
+    ui->stackedwidget->addWidget(m_audioplayerwidget);
 }
 
 void MainWindow::initSignalSlots()
@@ -79,6 +87,9 @@ void MainWindow::initSignalSlots()
     });
     connect(ui->btn_videoplayer, &QPushButton::clicked, this, [this]() {
         ui->stackedwidget->setCurrentIndex(1);
+    });
+    connect(ui->btn_audioplayer, &QPushButton::clicked, this, [this]() {
+        ui->stackedwidget->setCurrentIndex(2);
     });
 }
 

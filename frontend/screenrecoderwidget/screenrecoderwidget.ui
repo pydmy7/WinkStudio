@@ -27,7 +27,7 @@
       <enum>QLayout::SetMinimumSize</enum>
      </property>
      <item>
-      <widget class="QPushButton" name="btn_start">
+      <widget class="QPushButton" name="btn_startpause">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -36,22 +36,6 @@
        </property>
        <property name="text">
         <string>start</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btn_pausecontinue">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>pause/continue</string>
        </property>
       </widget>
      </item>

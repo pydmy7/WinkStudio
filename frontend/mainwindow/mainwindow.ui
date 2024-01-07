@@ -20,7 +20,7 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QPushButton" name="btn_screenrecorder">
@@ -33,6 +33,13 @@
          <widget class="QPushButton" name="btn_videoplayer">
           <property name="text">
            <string>视频播放</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_audioplayer">
+          <property name="text">
+           <string>音频播放</string>
           </property>
          </widget>
         </item>

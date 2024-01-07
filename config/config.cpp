@@ -17,7 +17,7 @@ namespace config {
 
 std::mutex mtx;
 
-const QString url_issues = "https://github.com/pydmy7/WinkStudio/issues";
+const QString url_issues = QStringLiteral("https://github.com/pydmy7/WinkStudio/issues");
 
 QString theme;
 QString fileaddress;

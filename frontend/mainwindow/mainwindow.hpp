@@ -11,6 +11,7 @@ QT_END_NAMESPACE
 
 class ScreenRecoderWidget;
 class VideoPlayerWidget;
+class AudioPlayerWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -25,6 +26,7 @@ private:
 
     ScreenRecoderWidget* m_screenrecoderwidget;
     VideoPlayerWidget* m_videoplayerwidget;
+    AudioPlayerWidget* m_audioplayerwidget;
 
     void initMembers();
     void initSignalSlots();
