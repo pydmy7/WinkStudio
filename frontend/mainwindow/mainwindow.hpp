@@ -7,9 +7,10 @@ QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
 }
-class QTimer;
-class QLCDNumber;
 QT_END_NAMESPACE
+
+class ScreenRecoderWidget;
+class VideoPlayerWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -22,9 +23,8 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    int m_totseconds;
-    QTimer* m_timer;
-    QLCDNumber* m_lcdnumber;
+    ScreenRecoderWidget* m_screenrecoderwidget;
+    VideoPlayerWidget* m_videoplayerwidget;
 
     void initMembers();
     void initSignalSlots();

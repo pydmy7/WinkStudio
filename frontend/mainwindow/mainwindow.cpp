@@ -4,10 +4,12 @@
 #include "config/config.hpp"
 #include "frontend/dialogabout/dialogabout.hpp"
 #include "frontend/dialogset/dialogset.hpp"
+#include "frontend/screenrecoderwidget/screenrecoderwidget.hpp"
+#include "frontend/videoplayerwidget/videoplayerwidget.hpp"
 
 #include <QDesktopServices>
 #include <QUrl>
-#include <QTimer>
+#include <QScreen>
 #include <QLCDNumber>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -25,54 +27,39 @@ MainWindow::~MainWindow()
 {
     delete ui;
 
-    if (m_timer != nullptr) {
-        delete m_timer;
-        m_timer = nullptr;
+    if (m_screenrecoderwidget != nullptr) {
+        delete m_screenrecoderwidget;
+        m_screenrecoderwidget = nullptr;
     }
-
-    if (m_lcdnumber != nullptr) {
-        delete m_lcdnumber;
-        m_lcdnumber = nullptr;
+    if (m_videoplayerwidget != nullptr) {
+        delete m_videoplayerwidget;
+        m_videoplayerwidget = nullptr;
     }
 }
 
 void MainWindow::initMembers()
 {
-    m_totseconds = 0;
-    m_timer = new QTimer(this);
-    m_lcdnumber = new QLCDNumber(this);
-    ui->statusbar->addPermanentWidget(m_lcdnumber);
+    QRect rect = QGuiApplication::primaryScreen()->geometry();
+    this->resize(rect.width() / 2, rect.height() / 2);
+
+    ui->splitter->setStretchFactor(0, 1);
+    ui->splitter->setStretchFactor(1, 2);
+
+    m_screenrecoderwidget = new ScreenRecoderWidget(this);
+    m_videoplayerwidget = new VideoPlayerWidget(this);
+    // ui->stackedwidget->clear();
+    for (int i = ui->stackedwidget->count() - 1; i >= 0; --i) {
+        QWidget* widget = ui->stackedwidget->widget(i);
+        ui->stackedwidget->removeWidget(widget);
+        widget->deleteLater();
+    }
+    // ui->stackedwidget->clear();
+    ui->stackedwidget->addWidget(m_screenrecoderwidget);
+    ui->stackedwidget->addWidget(m_videoplayerwidget);
 }
 
 void MainWindow::initSignalSlots()
 {
-    connect(ui->btn_start, &QPushButton::clicked, this, [this]() {
-        ui->btn_start->setEnabled(false);
-        ui->btn_pausecontinue->setEnabled(true);
-        ui->btn_pausecontinue->setText("pause");
-        ui->btn_stop->setEnabled(true);
-        m_timer->start(1E3);
-        m_totseconds = 0;
-    });
-    connect(ui->btn_pausecontinue, &QPushButton::clicked, this, [this]() {
-        QString curtext = ui->btn_pausecontinue->text();
-        curtext = curtext == "pause" ? "continue" : "pause";
-        ui->btn_pausecontinue->setText(curtext);
-    });
-    connect(ui->btn_stop, &QPushButton::clicked, this, [this]() {
-        ui->btn_start->setEnabled(true);
-        ui->btn_pausecontinue->setEnabled(false);
-        ui->btn_pausecontinue->setText("pause/continue");
-        ui->btn_stop->setEnabled(false);
-        m_timer->stop();
-        m_lcdnumber->display(0);
-        QString text = QString("共用时%0秒").arg(m_totseconds);
-        ui->statusbar->showMessage(text, 5E3);
-    });
-    connect(m_timer, &QTimer::timeout, this, [this]() {
-        ++m_totseconds;
-        m_lcdnumber->display(m_totseconds);
-    });
     connect(ui->action_dark, &QAction::triggered, this, &MainWindow::switchDarkTheme);
     connect(ui->action_light, &QAction::triggered, this, &MainWindow::switchLightTheme);
     connect(ui->action_feedback, &QAction::triggered, []() {
@@ -85,6 +72,13 @@ void MainWindow::initSignalSlots()
     connect(ui->action_set, &QAction::triggered, this, [this]() {
         DialogSet set(this);
         set.exec();
+    });
+
+    connect(ui->btn_screenrecorder, &QPushButton::clicked, this, [this]() {
+        ui->stackedwidget->setCurrentIndex(0);
+    });
+    connect(ui->btn_videoplayer, &QPushButton::clicked, this, [this]() {
+        ui->stackedwidget->setCurrentIndex(1);
     });
 }
 
