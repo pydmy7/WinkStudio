@@ -18,6 +18,9 @@ public:
     explicit AudioPlayerWidget(QWidget *parent = nullptr);
     ~AudioPlayerWidget();
 
+protected:
+    virtual bool eventFilter(QObject *watched, QEvent *event) override;
+
 private:
     Ui::AudioPlayerWidget *ui;
 

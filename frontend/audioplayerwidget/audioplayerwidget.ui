@@ -79,7 +79,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QSlider" name="horizontalSlider">
+          <widget class="QSlider" name="slider_play">
            <property name="singleStep">
             <number>1</number>
            </property>
@@ -126,7 +126,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QSlider" name="horizontalSlider_2">
+          <widget class="QSlider" name="slider_sound">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>

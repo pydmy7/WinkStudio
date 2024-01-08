@@ -4,6 +4,9 @@
 #include <QMediaPlayer>
 #include <QAudioOutput>
 
+#include <QMouseEvent>
+#include <QMetaType>
+
 AudioPlayerWidget::AudioPlayerWidget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::AudioPlayerWidget)
@@ -24,10 +27,27 @@ AudioPlayerWidget::~AudioPlayerWidget()
     }
 }
 
+bool AudioPlayerWidget::eventFilter(QObject *watched, QEvent *event)
+{
+    if (QSlider* slider = qobject_cast<QSlider*>(watched); slider != nullptr) {
+        if (event->type() == QEvent::MouseButtonPress) {
+            QMouseEvent* mouseevent = static_cast<QMouseEvent*>(event);
+            if (mouseevent->button() == Qt::LeftButton) {
+                int value = QStyle::sliderValueFromPosition(slider->minimum(), slider->maximum(), mouseevent->pos().x(), slider->width());
+                slider->setValue(value);
+            }
+        }
+    }
+    return QObject::eventFilter(watched, event);
+}
+
 void AudioPlayerWidget::initMembers()
 {
     ui->splitter->setStretchFactor(0, 0);
     ui->splitter->setStretchFactor(1, 1);
+
+    ui->slider_play->installEventFilter(this);
+    ui->slider_sound->installEventFilter(this);
 
     m_mediaplayer = new QMediaPlayer(this);
     QAudioOutput* audiooutput = new QAudioOutput(this);
