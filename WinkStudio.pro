@@ -4,7 +4,7 @@ QT += axcontainer openglwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++17
+CONFIG += c++20
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -26,5 +26,6 @@ RESOURCES += \
 
 include(3rdparty/3rdparty.pro)
 include(config/config.pro)
+include(global/global.pro)
 include(frontend/frontend.pro)
 include(app/app.pro)

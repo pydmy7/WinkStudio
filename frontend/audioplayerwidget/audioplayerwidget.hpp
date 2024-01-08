@@ -28,6 +28,8 @@ private:
 
     void initMembers();
     void initSignalSlots();
+
+private slots:
 };
 
 #endif // AUDIOPLAYERWIDGET_HPP
