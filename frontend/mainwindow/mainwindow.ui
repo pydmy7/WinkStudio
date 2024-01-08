@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>WinkStudio</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../resource/images/images.qrc">
+    <normaloff>:/wink.png</normaloff>:/wink.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
@@ -24,6 +28,12 @@
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QPushButton" name="btn_screenrecorder">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string>屏幕录制</string>
           </property>
@@ -31,6 +41,12 @@
         </item>
         <item>
          <widget class="QPushButton" name="btn_videoplayer">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string>视频播放</string>
           </property>
@@ -38,6 +54,12 @@
         </item>
         <item>
          <widget class="QPushButton" name="btn_audioplayer">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string>音频播放</string>
           </property>
@@ -129,6 +151,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../resource/images/images.qrc"/>
+ </resources>
  <connections/>
 </ui>

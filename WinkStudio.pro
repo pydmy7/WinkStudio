@@ -18,9 +18,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 TEMPLATE = subdirs
 
-# 可执行文件图标
-RC_ICONS = wink.ico
-
 RESOURCES += \
     $$PWD/resource/themes/dark/darkstyle.qrc \
     $$PWD/resource/themes/light/lightstyle.qrc \

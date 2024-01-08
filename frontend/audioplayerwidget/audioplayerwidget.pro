@@ -1,3 +1,5 @@
+TEMPLATE = lib
+
 FORMS += \
     $$PWD/audioplayerwidget.ui
 
