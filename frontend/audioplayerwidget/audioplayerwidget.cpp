@@ -26,6 +26,9 @@ AudioPlayerWidget::~AudioPlayerWidget()
 
 void AudioPlayerWidget::initMembers()
 {
+    ui->splitter->setStretchFactor(0, 0);
+    ui->splitter->setStretchFactor(1, 1);
+
     m_mediaplayer = new QMediaPlayer(this);
     QAudioOutput* audiooutput = new QAudioOutput(this);
     m_mediaplayer->setAudioOutput(audiooutput);
