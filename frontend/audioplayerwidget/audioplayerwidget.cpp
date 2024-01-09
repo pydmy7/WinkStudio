@@ -173,7 +173,7 @@ void AudioPlayerWidget::listWidgetCurrentRowIncrement(int increment)
         if (currow == -1) {
             currow = 0;
         } else {
-            currow = (currow + increment % cnt + cnt) % cnt;
+            currow = (currow + increment + cnt) % cnt;
         }
     }
     QListWidgetItem* item = ui->listwidget->item(currow);
