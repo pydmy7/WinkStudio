@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>690</width>
+    <width>782</width>
     <height>495</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <item>
       <widget class="QPushButton" name="btn_add">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -30,16 +30,15 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btn_delete">
+      <widget class="QLineEdit" name="lineEdit">
        <property name="text">
-        <string>移除(改为右键菜单删除)</string>
+        <string/>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btn_clear">
-       <property name="text">
-        <string>清空(改为键盘事件ctrl+a+del)</string>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="placeholderText">
+        <string>搜索</string>
        </property>
       </widget>
      </item>
@@ -56,6 +55,15 @@
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::CustomContextMenu</enum>
+      </property>
+      <property name="dragEnabled">
+       <bool>true</bool>
+      </property>
+      <property name="dragDropMode">
+       <enum>QAbstractItemView::InternalMove</enum>
       </property>
      </widget>
      <widget class="QLabel" name="label_picture">
@@ -81,7 +89,7 @@
          <item>
           <widget class="QLabel" name="label_time">
            <property name="text">
-            <string>00:00</string>
+            <string>00:00/00:00</string>
            </property>
           </widget>
          </item>
@@ -115,8 +123,7 @@
          <item>
           <widget class="QPushButton" name="btn_playpause">
            <property name="text">
-            <string>play(键盘事件space切换状态)
-注意切换带其他widgetpage后是否生效</string>
+            <string>play</string>
            </property>
           </widget>
          </item>
@@ -130,7 +137,7 @@
          <item>
           <widget class="QPushButton" name="btn_playmode">
            <property name="text">
-            <string>顺序播放/列表循环/单曲循环/随机播放</string>
+            <string>单曲循环</string>
            </property>
           </widget>
          </item>

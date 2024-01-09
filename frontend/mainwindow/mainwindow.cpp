@@ -48,19 +48,12 @@ void MainWindow::initMembers()
     this->resize(rect.width() / 2, rect.height() / 2);
 
     ui->splitter->setStretchFactor(0, 1);
-    ui->splitter->setStretchFactor(1, 2);
+    ui->splitter->setStretchFactor(1, 1);
 
     m_screenrecoderwidget = new ScreenRecoderWidget(this);
     m_videoplayerwidget = new VideoPlayerWidget(this);
     m_audioplayerwidget = new AudioPlayerWidget(this);
 
-    // ui->stackedwidget->clear();
-    for (int i = ui->stackedwidget->count() - 1; i >= 0; --i) {
-        QWidget* widget = ui->stackedwidget->widget(i);
-        ui->stackedwidget->removeWidget(widget);
-        widget->deleteLater();
-    }
-    // ui->stackedwidget->clear();
     ui->stackedwidget->addWidget(m_screenrecoderwidget);
     ui->stackedwidget->addWidget(m_videoplayerwidget);
     ui->stackedwidget->addWidget(m_audioplayerwidget);

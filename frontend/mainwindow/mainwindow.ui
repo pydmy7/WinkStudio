@@ -82,10 +82,8 @@
       </widget>
       <widget class="QStackedWidget" name="stackedwidget">
        <property name="currentIndex">
-        <number>1</number>
+        <number>-1</number>
        </property>
-       <widget class="QWidget" name="screenrecorderwidget"/>
-       <widget class="QWidget" name="videoplayerwidget"/>
       </widget>
      </widget>
     </item>

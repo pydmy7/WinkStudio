@@ -3,15 +3,19 @@
 
 #include <QMediaPlayer>
 #include <QAudioOutput>
-#include <QMouseEvent>
 #include <QDir>
 #include <QFileDialog>
+#include <QMouseEvent>
+#include <QKeyEvent>
+#include <QMenu>
+#include <QRandomGenerator>
 
 #include "global/global.hpp"
 
 AudioPlayerWidget::AudioPlayerWidget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::AudioPlayerWidget)
+    , m_playmodetext({"单曲循环", "列表循环", "随机播放"})
 {
     ui->setupUi(this);
 
@@ -43,7 +47,16 @@ bool AudioPlayerWidget::eventFilter(QObject *watched, QEvent *event)
                 slider->setValue(value);
             }
         }
+    } else if (QListWidget* listwidget = qobject_cast<QListWidget*>(watched); listwidget != nullptr) {
+        if (listwidget == ui->listwidget && event->type() == QEvent::KeyPress) {
+            QKeyEvent* keyevent = static_cast<QKeyEvent*>(event);
+            if (keyevent->key() == Qt::Key_Delete) {
+                QListWidgetItem* item = listwidget->takeItem(listwidget->currentRow());
+                delete item;
+            }
+        }
     }
+
     return QObject::eventFilter(watched, event);
 }
 
@@ -54,21 +67,44 @@ void AudioPlayerWidget::initMembers()
 
     ui->slider_play->installEventFilter(this);
     ui->slider_sound->installEventFilter(this);
+    ui->listwidget->installEventFilter(this);
+
+    m_playmodetype = 0;
 
     m_mediaplayer = new QMediaPlayer(this);
     m_mediaplayer->setAudioOutput(new QAudioOutput(this));
-    // m_mediaplayer->setSource(QUrl("file:///D:/音乐/暴躁鸡汤 - HEAVEN.mp3"));
+
+    m_actiondeletecurrentitem = new QAction{"删除选中项", this};
+    m_actionclearlistwidget = new QAction{"清空列表", this};
 }
 
 void AudioPlayerWidget::initSignalSlots()
 {
+    connect(ui->listwidget, &QListWidget::customContextMenuRequested, this, &AudioPlayerWidget::generateContextMenu);
     connect(m_mediaplayer, &QMediaPlayer::durationChanged, this, [this](int duration) {
         ui->slider_play->setMaximum(duration);
+        int milliseconds = duration;
+        int minutes = milliseconds / (1000 * 60);
+        int seconds = milliseconds % (1000 * 60) / 1000;
+        QString timetext = ui->label_time->text();
+        timetext.replace(6, 5, QString::asprintf("%02d:%02d", minutes, seconds));
+        ui->label_time->setText(timetext);
     });
     connect(m_mediaplayer, &QMediaPlayer::positionChanged, this, [this](int position) {
         ui->slider_play->blockSignals(true);
         ui->slider_play->setValue(position);
         ui->slider_play->blockSignals(false);
+        int milliseconds = position;
+        int minutes = milliseconds / (1000 * 60);
+        int seconds = milliseconds % (1000 * 60) / 1000;
+        QString timetext = ui->label_time->text();
+        timetext.replace(0, 5, QString::asprintf("%02d:%02d", minutes, seconds));
+        ui->label_time->setText(timetext);
+    });
+    connect(m_mediaplayer, &QMediaPlayer::playbackStateChanged, this, [this](QMediaPlayer::PlaybackState state) {
+        if (state == QMediaPlayer::StoppedState) {
+            listWidgetCurrentRowIncrement(m_playmodetype);
+        }
     });
     connect(ui->slider_play, &QSlider::valueChanged, this, [this](int value) {
         m_mediaplayer->setPosition(value);
@@ -96,14 +132,67 @@ void AudioPlayerWidget::initSignalSlots()
             filename = QFileInfo{fileaddress}.fileName();
             QListWidgetItem* item = new QListWidgetItem(filename);
             ui->listwidget->addItem(item);
+            item->setData(Qt::UserRole, QUrl::fromLocalFile(fileaddress));
         }
     });
-    connect(ui->btn_delete, &QPushButton::clicked, this, [this]() {
-        int idx = ui->listwidget->currentRow();
-        QListWidgetItem* item = ui->listwidget->takeItem(idx);
-        ui->listwidget->removeItemWidget(item);
+    connect(ui->listwidget, &QListWidget::itemDoubleClicked, this, [this](QListWidgetItem* item) {
+        m_mediaplayer->setSource(item->data(Qt::UserRole).value<QUrl>());
+        ui->btn_playpause->setText("play");
+        ui->btn_playpause->click();
     });
-    connect(ui->btn_clear, &QPushButton::clicked, this, [this]() {
+    connect(m_actiondeletecurrentitem, &QAction::triggered, this, [this]() {
+        if (int currentrow = ui->listwidget->currentRow(); currentrow != -1) {
+            QListWidgetItem* item = ui->listwidget->takeItem(currentrow);
+            delete item;
+        }
+    });
+    connect(m_actionclearlistwidget, &QAction::triggered, this, [this]() {
         ui->listwidget->clear();
     });
+}
+
+void AudioPlayerWidget::generateContextMenu(const QPoint &pos)
+{
+    Q_UNUSED(pos)
+    QMenu* menu = new QMenu{this};
+    menu->addActions(QList<QAction*>{m_actiondeletecurrentitem, m_actionclearlistwidget});
+    menu->exec(QCursor::pos());
+    delete menu;  // smart pointer. 所有权问题(应该使用哪种指针). qt中的smart pointer与cpp中smart pointer的区别.
+}
+
+void AudioPlayerWidget::listWidgetCurrentRowIncrement(int increment)
+{
+    int cnt = ui->listwidget->count();
+    if (cnt == 0) {
+        return;
+    }
+    int currow = ui->listwidget->currentRow();
+    if (m_playmodetype == 2) {
+        currow = QRandomGenerator::global()->bounded(0, cnt);
+    } else {
+        if (currow == -1) {
+            currow = 0;
+        } else {
+            currow = (currow + increment % cnt + cnt) % cnt;
+        }
+    }
+    QListWidgetItem* item = ui->listwidget->item(currow);
+    emit ui->listwidget->itemDoubleClicked(item);
+    ui->listwidget->setCurrentRow(currow);
+}
+
+void AudioPlayerWidget::on_btn_up_clicked()
+{
+    listWidgetCurrentRowIncrement(-1);
+}
+
+void AudioPlayerWidget::on_btn_down_clicked()
+{
+    listWidgetCurrentRowIncrement(1);
+}
+
+void AudioPlayerWidget::on_btn_playmode_clicked()
+{
+    m_playmodetype = (m_playmodetype + 1) % 3;
+    ui->btn_playmode->setText(m_playmodetext.at(m_playmodetype));
 }
