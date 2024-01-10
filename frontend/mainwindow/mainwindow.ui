@@ -122,7 +122,6 @@
    <addaction name="menu_help"/>
    <addaction name="menu"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="action_set">
    <property name="text">
     <string>设置</string>

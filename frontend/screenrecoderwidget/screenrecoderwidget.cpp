@@ -1,9 +1,11 @@
 #include "screenrecoderwidget.hpp"
 #include "ui_screenrecoderwidget.h"
 
+#include "config/config.hpp"
+
 #include <QTimer>
 #include <QLCDNumber>
-#include <QDebug>
+#include <QDesktopServices>
 
 ScreenRecoderWidget::ScreenRecoderWidget(QWidget *parent)
     : QWidget(parent)
@@ -69,4 +71,9 @@ void ScreenRecoderWidget::initSignalSlots()
         ++m_totseconds;
         ui->lcdnumber->display(m_totseconds);
     });
+}
+
+void ScreenRecoderWidget::on_btn_opendir_clicked()
+{
+    QDesktopServices::openUrl(QUrl::fromLocalFile(config::fileaddress));
 }

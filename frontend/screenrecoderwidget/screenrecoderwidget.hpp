@@ -19,6 +19,9 @@ public:
     explicit ScreenRecoderWidget(QWidget *parent = nullptr);
     ~ScreenRecoderWidget();
 
+private slots:
+    void on_btn_opendir_clicked();
+
 private:
     Ui::ScreenRecoderWidget *ui;
 
