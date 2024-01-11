@@ -8,6 +8,7 @@ class AudioPlayerWidget;
 }
 QT_BEGIN_NAMESPACE
 class QMediaPlayer;
+class QListWidgetItem;
 QT_END_NAMESPACE
 
 class AudioPlayerWidget : public QWidget
@@ -32,6 +33,8 @@ private:
     QAction* m_actiondeletecurrentitem;
     QAction* m_actionclearlistwidget;
 
+    std::unique_ptr<QSet<QListWidgetItem*>> m_listitems;
+
     void initMembers();
     void initSignalSlots();
 
@@ -42,6 +45,7 @@ private slots:
     void on_btn_up_clicked();
     void on_btn_down_clicked();
     void on_btn_playmode_clicked();
+    void on_lineedit_search_textChanged(const QString& text);
 };
 
 #endif // AUDIOPLAYERWIDGET_HPP

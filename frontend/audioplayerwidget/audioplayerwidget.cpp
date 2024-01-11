@@ -52,6 +52,7 @@ bool AudioPlayerWidget::eventFilter(QObject *watched, QEvent *event)
             QKeyEvent* keyevent = static_cast<QKeyEvent*>(event);
             if (keyevent->key() == Qt::Key_Delete) {
                 QListWidgetItem* item = listwidget->takeItem(listwidget->currentRow());
+                m_listitems->remove(item);
                 delete item;
             }
         }
@@ -76,6 +77,8 @@ void AudioPlayerWidget::initMembers()
 
     m_actiondeletecurrentitem = new QAction{"删除选中项", this};
     m_actionclearlistwidget = new QAction{"清空列表", this};
+
+    m_listitems = std::make_unique<QSet<QListWidgetItem*>>();
 }
 
 void AudioPlayerWidget::initSignalSlots()
@@ -126,6 +129,7 @@ void AudioPlayerWidget::initSignalSlots()
         }
     });
     connect(ui->btn_add, &QPushButton::clicked, this, [this]() {
+        ui->lineedit_search->clear();
         QStringList fileaddresss = QFileDialog::getOpenFileNames(this, \
             "选择音频文件", QDir::homePath(), "音频文件(*.mp3 *.wav *.wma);;所有文件(*.*)");
         for (QString filename; const auto& fileaddress : fileaddresss) {
@@ -133,6 +137,7 @@ void AudioPlayerWidget::initSignalSlots()
             QListWidgetItem* item = new QListWidgetItem(filename);
             ui->listwidget->addItem(item);
             item->setData(Qt::UserRole, QUrl::fromLocalFile(fileaddress));
+            m_listitems->insert(item);
         }
     });
     connect(ui->listwidget, &QListWidget::itemDoubleClicked, this, [this](QListWidgetItem* item) {
@@ -143,10 +148,14 @@ void AudioPlayerWidget::initSignalSlots()
     connect(m_actiondeletecurrentitem, &QAction::triggered, this, [this]() {
         if (int currentrow = ui->listwidget->currentRow(); currentrow != -1) {
             QListWidgetItem* item = ui->listwidget->takeItem(currentrow);
+            m_listitems->remove(item);
             delete item;
         }
     });
     connect(m_actionclearlistwidget, &QAction::triggered, this, [this]() {
+        for (int i = 0; i < ui->listwidget->count(); ++i) {
+            m_listitems->remove(ui->listwidget->item(i));
+        }
         ui->listwidget->clear();
     });
 }
@@ -195,4 +204,27 @@ void AudioPlayerWidget::on_btn_playmode_clicked()
 {
     m_playmodetype = (m_playmodetype + 1) % 3;
     ui->btn_playmode->setText(m_playmodetext.at(m_playmodetype));
+}
+
+void AudioPlayerWidget::on_lineedit_search_textChanged(const QString& text)
+{
+    auto isMatch = [](const QString& text1, const QString& text2) -> bool {
+        return text1.contains(text2, Qt::CaseInsensitive);
+    };
+
+    QList<QListWidgetItem*> items;
+    for (const auto& item : qAsConst(*m_listitems)) {
+        if (isMatch(item->text(), text)) {
+            items.push_back(item);
+        }
+    }
+
+    int cnt = ui->listwidget->count();
+    for (int i = cnt - 1; i >= 0; --i) {
+        ui->listwidget->takeItem(i);
+    }
+
+    for (const auto& item : items) {
+        ui->listwidget->addItem(item);
+    }
 }
