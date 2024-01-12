@@ -58,7 +58,7 @@ bool AudioPlayerWidget::eventFilter(QObject *watched, QEvent *event)
         }
     }
 
-    return QObject::eventFilter(watched, event);
+    return QWidget::eventFilter(watched, event);
 }
 
 void AudioPlayerWidget::initMembers()

@@ -1,3 +1,4 @@
+#include "config/config.hpp"
 #include "frontend/mainwindow/mainwindow.hpp"
 
 #include <QApplication>
@@ -23,6 +24,8 @@ int main(int argc, char *argv[])
     init();
 
     QApplication app(argc, argv);
+
+    config::initConfig();
 
     QSharedMemory shared("WinkStudio");
     if (shared.attach()) {

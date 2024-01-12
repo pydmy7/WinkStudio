@@ -21,7 +21,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     initMembers();
     initSignalSlots();
-    initConfig();
 }
 
 MainWindow::~MainWindow()
@@ -84,11 +83,6 @@ void MainWindow::initSignalSlots()
     connect(ui->btn_audioplayer, &QPushButton::clicked, this, [this]() {
         ui->stackedwidget->setCurrentIndex(2);
     });
-}
-
-void MainWindow::initConfig()
-{
-    config::initConfig();
 }
 
 void MainWindow::switchDarkTheme()

@@ -30,7 +30,6 @@ private:
 
     void initMembers();
     void initSignalSlots();
-    void initConfig();
 
 private slots:
     void switchDarkTheme();
