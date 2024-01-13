@@ -4,7 +4,7 @@
 // std::unreachable();  // Since C++23
 // __assume(false);  // MSVC
 // __builtin_unreachable();  // GCC/Clang
-#if defined(__GNUC__) || defined(__clang__)
+#if defined(__MINGW32__) || defined(__GNUC__) || defined(__clang__)
     #define unreachable() __builtin_unreachable()
 #elif defined(_MSC_VER)
     #define unreachable() __assume(false)

@@ -35,19 +35,10 @@ ScreenRecoderWidget::~ScreenRecoderWidget()
     }
 }
 
-bool ScreenRecoderWidget::eventFilter(QObject *watched, QEvent *event)
+void ScreenRecoderWidget::keyPressEvent(QKeyEvent *event)
 {
-    static int screencnt = 0;
-    qDebug() << "ScreenRecoderWidget::eventFilter" << screencnt++;
-
-    if (QLabel* label = qobject_cast<QLabel*>(watched); label != nullptr) {
-        if (label == m_keyecholabel && event->type() == QEvent::KeyPress) {
-            QKeyEvent* keyevent = static_cast<QKeyEvent*>(event);
-            QString text = keyevent->text();
-            label->setText("Get a key:" + text);
-        }
-    }
-    return QWidget::eventFilter(watched, event);
+    m_keyecholabel->setText("Get a key: " + event->text());
+    QWidget::keyPressEvent(event);
 }
 
 void ScreenRecoderWidget::initMembers()
@@ -57,12 +48,15 @@ void ScreenRecoderWidget::initMembers()
 
     m_keyecholabel = new QLabel();
     m_keyecholabel->setText("hhhhhhh");
+    m_keyecholabel->installEventFilter(this);
     m_keyecholabel->setAttribute(Qt::WA_DeleteOnClose);
     m_keyecholabel->setWindowModality(Qt::NonModal);
-    m_keyecholabel->setWindowFlags(Qt::FramelessWindowHint \
-                                 | Qt::SplashScreen \
-                                 | Qt::WindowStaysOnTopHint \
-                                 | Qt::WindowTransparentForInput);
+    m_keyecholabel->setWindowFlags(Qt::SplashScreen
+                                   | Qt::CustomizeWindowHint
+                                   | Qt::FramelessWindowHint
+                                   | Qt::WindowStaysOnTopHint
+                                   | Qt::WindowTransparentForInput
+                                   | Qt::WindowDoesNotAcceptFocus);
     m_keyecholabel->setAttribute(Qt::WA_TranslucentBackground);
     QFont font;
     font.setPointSize(30);
@@ -73,7 +67,6 @@ void ScreenRecoderWidget::initMembers()
     int labelwidth = m_keyecholabel->width(), labelheight = m_keyecholabel->height();
     m_keyecholabel->move(right - labelwidth, bottom - labelheight);
     m_keyecholabel->show();
-    m_keyecholabel->installEventFilter(this);
 }
 
 void ScreenRecoderWidget::initSignalSlots()

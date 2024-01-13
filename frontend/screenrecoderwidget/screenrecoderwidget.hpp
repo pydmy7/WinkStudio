@@ -21,7 +21,7 @@ public:
     ~ScreenRecoderWidget();
 
 protected:
-    virtual bool eventFilter(QObject *watched, QEvent *event) override;
+    virtual void keyPressEvent(QKeyEvent *event) override;
 
 private slots:
     void on_btn_opendir_clicked();

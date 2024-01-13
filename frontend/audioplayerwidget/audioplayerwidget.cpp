@@ -38,23 +38,22 @@ bool AudioPlayerWidget::eventFilter(QObject *watched, QEvent *event)
     // p.s. slider_play 定点播放, slider_sound 实时渲染
     // slider_play: MouseButtonRelease + tracking(false)
     // slider_sound: MouseButtonPress + tracking(true)
-    if (QSlider* slider = qobject_cast<QSlider*>(watched); slider != nullptr) {
-        if ((slider == ui->slider_play && event->type() == QEvent::MouseButtonRelease) || \
-            (slider == ui->slider_sound && event->type() == QEvent::MouseButtonPress)) {
-            QMouseEvent* mouseevent = static_cast<QMouseEvent*>(event);
-            if (mouseevent->button() == Qt::LeftButton) {
-                int value = QStyle::sliderValueFromPosition(slider->minimum(), slider->maximum(), mouseevent->pos().x(), slider->width());
-                slider->setValue(value);
-            }
+    if ((watched == ui->slider_play && event->type() == QEvent::MouseButtonRelease) || \
+        (watched == ui->slider_sound && event->type() == QEvent::MouseButtonPress))
+    {
+        QSlider* slider = qobject_cast<QSlider*>(watched);
+        QMouseEvent* mouseevent = static_cast<QMouseEvent*>(event);
+        if (mouseevent->button() == Qt::LeftButton) {
+            int value = QStyle::sliderValueFromPosition(slider->minimum(), slider->maximum(), mouseevent->pos().x(), slider->width());
+            slider->setValue(value);
         }
-    } else if (QListWidget* listwidget = qobject_cast<QListWidget*>(watched); listwidget != nullptr) {
-        if (listwidget == ui->listwidget && event->type() == QEvent::KeyPress) {
-            QKeyEvent* keyevent = static_cast<QKeyEvent*>(event);
-            if (keyevent->key() == Qt::Key_Delete) {
-                QListWidgetItem* item = listwidget->takeItem(listwidget->currentRow());
-                m_listitems->remove(item);
-                delete item;
-            }
+    } else if (watched == ui->listwidget && event->type() == QEvent::KeyPress) {
+        QListWidget* listwidget = ui->listwidget;
+        QKeyEvent* keyevent = static_cast<QKeyEvent*>(event);
+        if (keyevent->key() == Qt::Key_Delete) {
+            QListWidgetItem* item = listwidget->takeItem(listwidget->currentRow());
+            m_listitems->remove(item);
+            delete item;
         }
     }
 
