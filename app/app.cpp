@@ -1,5 +1,6 @@
 #include "config/config.hpp"
 #include "frontend/mainwindow/mainwindow.hpp"
+#include "plugin/keyecho.hpp"
 
 #include <QApplication>
 #include <QSharedMemory>
@@ -25,14 +26,16 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
 
-    config::initConfig();
-
     QSharedMemory shared("WinkStudio");
     if (shared.attach()) {
         QMessageBox::warning(nullptr, "来自wink小助手的提示", "软件正在运行，请勿重复启动软件哦。");
         return 0;
     }
     shared.create(1);
+
+    config::initConfig();
+
+    KeyEcho::getInstance().start();
 
     MainWindow mw;
     mw.show();
