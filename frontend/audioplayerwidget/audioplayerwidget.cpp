@@ -3,6 +3,7 @@
 
 #include "global/global.hpp"
 #include "algorithm/strhash/strhash.hpp"
+#include "algorithm/kmp/kmp.hpp"
 
 #include <QMediaPlayer>
 #include <QAudioOutput>
@@ -209,7 +210,8 @@ void AudioPlayerWidget::on_btn_playmode_clicked()
 
 void AudioPlayerWidget::on_lineedit_search_textChanged(const QString& text)
 {
-    auto isMatch = [this](const QString& text1, const QString& text2) -> bool {
+    [[maybe_unused]]
+    auto strHashMatch = [this](const QString& text1, const QString& text2) -> bool {
         if (!m_strhashvalues->contains(text1)) {
             m_strhashvalues->insert(text1, StrHash{text1});
         }
@@ -229,9 +231,12 @@ void AudioPlayerWidget::on_lineedit_search_textChanged(const QString& text)
 
     QList<QListWidgetItem*> items;
     for (const auto& item : qAsConst(*m_listitems)) {
-        if (isMatch(item->text(), text)) {
+        if (strHashMatch(item->text(), text)) {
             items.push_back(item);
         }
+        // if (kmp::match(item->text(), text)) {
+        //     items.push_back(item);
+        // }
     }
 
     int cnt = ui->listwidget->count();

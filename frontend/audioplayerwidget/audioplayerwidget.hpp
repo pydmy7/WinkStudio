@@ -36,6 +36,7 @@ private:
     QAction* m_actionclearlistwidget;
 
     std::unique_ptr<QSet<QListWidgetItem*>> m_listitems;
+    // 如果数据无限增加，会爆内存，解决办法是LRU，或者直接使用kmp
     std::unique_ptr<QHash<QString, StrHash>> m_strhashvalues;
 
     void initMembers();
