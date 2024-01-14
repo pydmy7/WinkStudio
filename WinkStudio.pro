@@ -24,9 +24,10 @@ RESOURCES += \
     $$PWD/resource/themes/light/lightstyle.qrc \
     $$PWD/resource/images/images.qrc
 
+include(algorithm/algorithm.pro)
+include(global/global.pro)
 include(3rdparty/3rdparty.pro)
 include(config/config.pro)
 include(plugin/plugin.pro)
-include(global/global.pro)
 include(frontend/frontend.pro)
 include(app/app.pro)

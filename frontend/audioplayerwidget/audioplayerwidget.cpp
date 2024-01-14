@@ -1,6 +1,9 @@
 #include "audioplayerwidget.hpp"
 #include "ui_audioplayerwidget.h"
 
+#include "global/global.hpp"
+#include "algorithm/strhash/strhash.hpp"
+
 #include <QMediaPlayer>
 #include <QAudioOutput>
 #include <QDir>
@@ -11,8 +14,6 @@
 #include <QRandomGenerator>
 
 #include <memory>
-
-#include "global/global.hpp"
 
 AudioPlayerWidget::AudioPlayerWidget(QWidget *parent)
     : QWidget(parent)
@@ -80,6 +81,7 @@ void AudioPlayerWidget::initMembers()
     m_actionclearlistwidget = new QAction{"清空列表", this};
 
     m_listitems = std::make_unique<QSet<QListWidgetItem*>>();
+    m_strhashvalues = std::make_unique<QHash<QString, StrHash>>();
 }
 
 void AudioPlayerWidget::initSignalSlots()
@@ -207,8 +209,22 @@ void AudioPlayerWidget::on_btn_playmode_clicked()
 
 void AudioPlayerWidget::on_lineedit_search_textChanged(const QString& text)
 {
-    auto isMatch = [](const QString& text1, const QString& text2) -> bool {
-        return text1.contains(text2, Qt::CaseInsensitive);
+    auto isMatch = [this](const QString& text1, const QString& text2) -> bool {
+        if (!m_strhashvalues->contains(text1)) {
+            m_strhashvalues->insert(text1, StrHash{text1});
+        }
+        if (!m_strhashvalues->contains(text2)) {
+            m_strhashvalues->insert(text2, StrHash{text2});
+        }
+        const StrHash strhash1 = m_strhashvalues->take(text1);
+        const i64 val2 = m_strhashvalues->take(text2).getHashValueObverse(0, text2.size() - 1);
+        for (int i = 0; i < text1.size() - text2.size() + 1; ++i) {
+            i64 val1 = strhash1.getHashValueObverse(i, i + text2.size() - 1);
+            if (val1 == val2) {
+                return true;
+            }
+        }
+        return false;
     };
 
     QList<QListWidgetItem*> items;

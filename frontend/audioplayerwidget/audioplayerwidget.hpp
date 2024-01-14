@@ -11,6 +11,8 @@ class QMediaPlayer;
 class QListWidgetItem;
 QT_END_NAMESPACE
 
+class StrHash;
+
 class AudioPlayerWidget : public QWidget
 {
     Q_OBJECT
@@ -34,6 +36,7 @@ private:
     QAction* m_actionclearlistwidget;
 
     std::unique_ptr<QSet<QListWidgetItem*>> m_listitems;
+    std::unique_ptr<QHash<QString, StrHash>> m_strhashvalues;
 
     void initMembers();
     void initSignalSlots();
