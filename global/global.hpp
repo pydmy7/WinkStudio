@@ -1,6 +1,7 @@
 #ifndef GLOBAL_HPP
 #define GLOBAL_HPP
 
+// p.s.
 // std::unreachable();  // Since C++23
 // __assume(false);  // MSVC
 // __builtin_unreachable();  // GCC/Clang

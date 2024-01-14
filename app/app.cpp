@@ -1,6 +1,7 @@
 #include "config/config.hpp"
 #include "frontend/mainwindow/mainwindow.hpp"
-#include "plugin/keyecho.hpp"
+// #include "plugin/keyecho.hpp"
+// #include "frontend/keyecholabel/keyecholabel.hpp"
 
 #include <QApplication>
 #include <QSharedMemory>
@@ -35,10 +36,13 @@ int main(int argc, char *argv[])
 
     config::initConfig();
 
-    KeyEcho::getInstance().start();
+    // KeyEcho::getInstance().start();
+
+    // KeyEchoLabel keyecholabel;
+    // keyecholabel.show();
 
     MainWindow mw;
     mw.show();
 
-    return app.exec();
+    return QApplication::exec();
 }

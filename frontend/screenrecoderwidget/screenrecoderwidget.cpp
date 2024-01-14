@@ -2,7 +2,7 @@
 #include "ui_screenrecoderwidget.h"
 
 #include "config/config.hpp"
-#include "plugin/keyecho.hpp"
+// #include "plugin/keyecho.hpp"
 
 #include <QTimer>
 #include <QLCDNumber>
@@ -82,5 +82,5 @@ void ScreenRecoderWidget::on_btn_opendir_clicked()
 void ScreenRecoderWidget::on_checkbox_keyecho_stateChanged(int state)
 {
     Q_UNUSED(state)
-    KeyEcho::getInstance().silentMode();
+    // KeyEcho::getInstance().silentMode();
 }

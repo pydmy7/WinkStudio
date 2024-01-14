@@ -10,6 +10,8 @@
 #include <QMenu>
 #include <QRandomGenerator>
 
+#include <memory>
+
 #include "global/global.hpp"
 
 AudioPlayerWidget::AudioPlayerWidget(QWidget *parent)
@@ -123,7 +125,6 @@ void AudioPlayerWidget::initSignalSlots()
             m_mediaplayer->pause();
             ui->btn_playpause->setText("play");
         } else {
-            // std::unreachable();  // Since C++23
             unreachable();
         }
     });
@@ -162,10 +163,9 @@ void AudioPlayerWidget::initSignalSlots()
 void AudioPlayerWidget::generateContextMenu(const QPoint &pos)
 {
     Q_UNUSED(pos)
-    QMenu* menu = new QMenu{this};
+    std::unique_ptr<QMenu> menu = std::make_unique<QMenu>(new QMenu(this));
     menu->addActions(QList<QAction*>{m_actiondeletecurrentitem, m_actionclearlistwidget});
     menu->exec(QCursor::pos());
-    delete menu;  // smart pointer. 所有权问题(应该使用哪种指针). qt中的smart pointer与cpp中smart pointer的区别.
 }
 
 void AudioPlayerWidget::listWidgetCurrentRowIncrement(int increment)

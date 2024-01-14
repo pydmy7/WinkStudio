@@ -25,7 +25,7 @@ protected:
 private:
     Ui::AudioPlayerWidget *ui;
 
-    // 0:单曲循环/1:列表循环/2:随机播放
+    // ps.s 0:单曲循环/1:列表循环/2:随机播放
     int m_playmodetype;
     const QVector<QString> m_playmodetext;
 
