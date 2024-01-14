@@ -14,6 +14,7 @@ private:
     static constexpr std::array<int, 2> mod = {1000000033, 1000002233};
 
     int n;
+    // const int n;会报错？不清楚，和隐式共享有关系吗？
     std::vector<std::vector<i64>> h, rh, pw;
 
 public:
