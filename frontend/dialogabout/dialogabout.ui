@@ -23,7 +23,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="../resource/images/images.qrc">:/wink.png</pixmap>
+      <pixmap resource="../../resource/images/images.qrc">:/images/wink.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -76,7 +76,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../resource/images/images.qrc"/>
+  <include location="../../resource/images/images.qrc"/>
  </resources>
  <connections/>
 </ui>
