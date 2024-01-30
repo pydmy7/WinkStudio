@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "Record/Recorder.h"
+
 namespace Ui {
 class ScreenRecoderWidget;
 }
@@ -28,6 +30,8 @@ private:
 
     int m_totseconds;
     QTimer* m_timer;
+
+    Recorder* m_recorder;
 
     void initMembers();
     void initSignalSlots();

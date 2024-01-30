@@ -50,6 +50,7 @@ private slots:
     void on_btn_down_clicked();
     void on_btn_playmode_clicked();
     void on_lineedit_search_textChanged(const QString& text);
+    void on_btn_volume_clicked();
 };
 
 #endif // AUDIOPLAYERWIDGET_HPP

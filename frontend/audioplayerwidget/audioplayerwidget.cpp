@@ -6,6 +6,7 @@
 #include "algorithm/kmp/kmp.hpp"
 
 #include <QMediaPlayer>
+#include <QMediaMetaData>
 #include <QAudioOutput>
 #include <QDir>
 #include <QFileDialog>
@@ -246,5 +247,21 @@ void AudioPlayerWidget::on_lineedit_search_textChanged(const QString& text)
 
     for (const auto& item : items) {
         ui->listwidget->addItem(item);
+    }
+}
+
+void AudioPlayerWidget::on_btn_volume_clicked()
+{
+    static std::pair<bool, int> slidersoundstate = {ui->slider_sound->value() == 0, ui->slider_sound->value()};
+    auto& [mute, lastvalue] = slidersoundstate;
+    mute = !mute;
+    if (mute) {
+        ui->btn_volume->setIcon(QIcon(":/images/mute.bmp"));
+        int lastvalue_ = ui->slider_sound->value();
+        lastvalue = lastvalue_;
+        ui->slider_sound->setValue(0);
+    } else {
+        ui->btn_volume->setIcon(QIcon(":/images/volumn.bmp"));
+        ui->slider_sound->setValue(lastvalue);
     }
 }

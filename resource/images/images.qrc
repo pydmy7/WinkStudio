@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/images">
         <file>wink.png</file>
+        <file>mute.bmp</file>
+        <file>volumn.bmp</file>
+        <file>xiaoheizi.jpg</file>
     </qresource>
 </RCC>

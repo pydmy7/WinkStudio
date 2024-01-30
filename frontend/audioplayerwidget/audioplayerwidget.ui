@@ -16,6 +16,10 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../resource/images/images.qrc">
+    <normaloff>:/images/volumn.bmp</normaloff>:/images/volumn.bmp</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -83,7 +87,8 @@
        </sizepolicy>
       </property>
       <property name="text">
-       <string>Picture(旋转，使用OpenGL)</string>
+       <string>OpenGL渲染
+旋转图片</string>
       </property>
      </widget>
     </widget>
@@ -153,15 +158,19 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="QPushButton" name="btn_volume">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="text">
-        <string>音量调节</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resource/images/images.qrc">
+         <normaloff>:/images/volumn.bmp</normaloff>:/images/volumn.bmp</iconset>
        </property>
       </widget>
      </item>
@@ -194,6 +203,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../resource/images/images.qrc"/>
+ </resources>
  <connections/>
 </ui>

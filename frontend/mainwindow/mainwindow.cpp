@@ -44,7 +44,7 @@ MainWindow::~MainWindow()
 void MainWindow::initMembers()
 {
     QRect rect = QGuiApplication::primaryScreen()->geometry();
-    this->resize(rect.width() / 2, rect.height() / 2);
+    this->setMinimumSize(rect.size() / 2);
 
     ui->splitter->setStretchFactor(0, 1);
     ui->splitter->setStretchFactor(1, 1);
