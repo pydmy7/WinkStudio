@@ -70,7 +70,7 @@ CMakeLists.txt.user*
 # Binaries
 # --------
 # *.dll
-*.exe
+# *.exe
 
 # my define
 msvc_make.bat

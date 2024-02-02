@@ -17,7 +17,7 @@
    <string>Form</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../resource/images/images.qrc">
+   <iconset>
     <normaloff>:/images/volumn.bmp</normaloff>:/images/volumn.bmp</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -32,7 +32,11 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>添加</string>
+        <string>添加文件</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resource/images/images.qrc">
+         <normaloff>:/images/file.svg</normaloff>:/images/file.svg</iconset>
        </property>
       </widget>
      </item>
@@ -132,28 +136,40 @@
      <item>
       <widget class="QPushButton" name="btn_up">
        <property name="text">
-        <string>&lt;&lt;</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resource/images/images.qrc">
+         <normaloff>:/images/previous.svg</normaloff>:/images/previous.svg</iconset>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="btn_playpause">
        <property name="text">
-        <string>play</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resource/images/images.qrc">
+         <normaloff>:/images/pause.svg</normaloff>:/images/pause.svg</iconset>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="btn_down">
        <property name="text">
-        <string>&gt;&gt;</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../resource/images/images.qrc">
+         <normaloff>:/images/next.svg</normaloff>:/images/next.svg</iconset>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="btn_playmode">
        <property name="text">
-        <string>单曲循环</string>
+        <string>列表循环</string>
        </property>
       </widget>
      </item>
@@ -170,7 +186,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../resource/images/images.qrc">
-         <normaloff>:/images/volumn.bmp</normaloff>:/images/volumn.bmp</iconset>
+         <normaloff>:/images/audio.svg</normaloff>:/images/audio.svg</iconset>
        </property>
       </widget>
      </item>

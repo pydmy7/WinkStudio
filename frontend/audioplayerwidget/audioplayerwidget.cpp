@@ -1,9 +1,8 @@
 #include "audioplayerwidget.hpp"
 #include "ui_audioplayerwidget.h"
 
-#include "global/global.hpp"
-#include "algorithm/strhash/strhash.hpp"
-#include "algorithm/kmp/kmp.hpp"
+#include "utility/algorithm/strhash/strhash.hpp"
+#include "utility/algorithm/kmp/kmp.hpp"
 
 #include <QMediaPlayer>
 #include <QMediaMetaData>
@@ -20,7 +19,7 @@
 AudioPlayerWidget::AudioPlayerWidget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::AudioPlayerWidget)
-    , m_playmodetext({"单曲循环", "列表循环", "随机播放"})
+    , m_playmodetext({"列表循环", "随机播放"})
 {
     ui->setupUi(this);
 
@@ -109,11 +108,7 @@ void AudioPlayerWidget::initSignalSlots()
         timetext.replace(0, 5, QString::asprintf("%02d:%02d", minutes, seconds));
         ui->label_time->setText(timetext);
     });
-    connect(m_mediaplayer, &QMediaPlayer::playbackStateChanged, this, [this](QMediaPlayer::PlaybackState state) {
-        if (state == QMediaPlayer::StoppedState) {
-            listWidgetCurrentRowIncrement(m_playmodetype);
-        }
-    });
+    connect(m_mediaplayer, &QMediaPlayer::playbackStateChanged, this, &AudioPlayerWidget::onPlaybackStateChanged);
     connect(ui->slider_play, &QSlider::valueChanged, this, [this](int value) {
         m_mediaplayer->setPosition(value);
     });
@@ -121,15 +116,10 @@ void AudioPlayerWidget::initSignalSlots()
         m_mediaplayer->audioOutput()->setVolume(value / 100.0);
     });
     connect(ui->btn_playpause, &QPushButton::clicked, this, [this]() {
-        QString curtext = ui->btn_playpause->text();
-        if (curtext == "play") {
-            m_mediaplayer->play();
-            ui->btn_playpause->setText("pause");
-        } else if (curtext == "pause") {
+        if (m_mediaplayer->playbackState() == QMediaPlayer::PlayingState) {
             m_mediaplayer->pause();
-            ui->btn_playpause->setText("play");
         } else {
-            unreachable();
+            m_mediaplayer->play();
         }
     });
     connect(ui->btn_add, &QPushButton::clicked, this, [this]() {
@@ -145,9 +135,10 @@ void AudioPlayerWidget::initSignalSlots()
         }
     });
     connect(ui->listwidget, &QListWidget::itemDoubleClicked, this, [this](QListWidgetItem* item) {
+        disconnect(m_mediaplayer, &QMediaPlayer::playbackStateChanged, this, &AudioPlayerWidget::onPlaybackStateChanged);
         m_mediaplayer->setSource(item->data(Qt::UserRole).value<QUrl>());
-        ui->btn_playpause->setText("play");
-        ui->btn_playpause->click();
+        connect(m_mediaplayer, &QMediaPlayer::playbackStateChanged, this, &AudioPlayerWidget::onPlaybackStateChanged);
+        m_mediaplayer->play();
     });
     connect(m_actiondeletecurrentitem, &QAction::triggered, this, [this]() {
         if (int currentrow = ui->listwidget->currentRow(); currentrow != -1) {
@@ -172,40 +163,65 @@ void AudioPlayerWidget::generateContextMenu(const QPoint &pos)
     menu->exec(QCursor::pos());
 }
 
-void AudioPlayerWidget::listWidgetCurrentRowIncrement(int increment)
+void AudioPlayerWidget::onPlaybackStateChanged(int state)
+{
+    if (state == QMediaPlayer::PlayingState) {
+        ui->btn_playpause->setIcon(QIcon{":/images/play.svg"});
+    } else if (state == QMediaPlayer::PausedState) {
+        ui->btn_playpause->setIcon(QIcon{":/images/pause.svg"});
+    } else if (state == QMediaPlayer::StoppedState) {
+        listWidgetCurrentRowIncrement(m_playmodetype, 0);
+    }
+}
+
+void AudioPlayerWidget::listWidgetCurrentRowIncrement(int playstate, int increment)
 {
     int cnt = ui->listwidget->count();
     if (cnt == 0) {
         return;
     }
+
     int currow = ui->listwidget->currentRow();
-    if (m_playmodetype == 2) {
-        currow = QRandomGenerator::global()->bounded(0, cnt);
+    if (currow == -1) {
+        currow = 0;
     } else {
-        if (currow == -1) {
-            currow = 0;
-        } else {
+        if (playstate == -1) {
             currow = (currow + increment + cnt) % cnt;
+        } else {
+            if (playstate == static_cast<int>(PlayModeType::ListLoop)) {
+                currow = (currow + 1) % cnt;
+            } else {
+                currow = QRandomGenerator::global()->bounded(0, cnt);
+            }
         }
     }
-    QListWidgetItem* item = ui->listwidget->item(currow);
-    emit ui->listwidget->itemDoubleClicked(item);
+
     ui->listwidget->setCurrentRow(currow);
+    QListWidgetItem* item = ui->listwidget->currentItem();
+    emit ui->listwidget->itemDoubleClicked(item);
 }
 
 void AudioPlayerWidget::on_btn_up_clicked()
 {
-    listWidgetCurrentRowIncrement(-1);
+    if (m_playmodetype == static_cast<int>(PlayModeType::RandomPlayback)) {
+        listWidgetCurrentRowIncrement(1, 0);
+    } else {
+        listWidgetCurrentRowIncrement(-1, -1);
+    }
 }
 
 void AudioPlayerWidget::on_btn_down_clicked()
 {
-    listWidgetCurrentRowIncrement(1);
+    if (m_playmodetype == static_cast<int>(PlayModeType::RandomPlayback)) {
+        listWidgetCurrentRowIncrement(1, 0);
+    } else {
+        listWidgetCurrentRowIncrement(-1, 1);
+    }
 }
 
 void AudioPlayerWidget::on_btn_playmode_clicked()
 {
-    m_playmodetype = (m_playmodetype + 1) % 3;
+    m_playmodetype = (m_playmodetype + 1) % 2;
     ui->btn_playmode->setText(m_playmodetext.at(m_playmodetype));
 }
 
@@ -213,6 +229,9 @@ void AudioPlayerWidget::on_lineedit_search_textChanged(const QString& text)
 {
     [[maybe_unused]]
     auto strHashMatch = [this](const QString& text1, const QString& text2) -> bool {
+        if (text2.isEmpty()) {
+            return true;
+        }
         if (!m_strhashvalues->contains(text1)) {
             m_strhashvalues->insert(text1, StrHash{text1});
         }
@@ -231,13 +250,13 @@ void AudioPlayerWidget::on_lineedit_search_textChanged(const QString& text)
     };
 
     QList<QListWidgetItem*> items;
-    for (const auto& item : qAsConst(*m_listitems)) {
-        if (strHashMatch(item->text(), text)) {
-            items.push_back(item);
-        }
-        // if (kmp::match(item->text(), text)) {
+    for (const auto& item : std::as_const(*m_listitems)) {
+        // if (strHashMatch(item->text(), text)) {
         //     items.push_back(item);
         // }
+        if (kmp::match(item->text(), text)) {
+            items.push_back(item);
+        }
     }
 
     int cnt = ui->listwidget->count();
@@ -256,12 +275,12 @@ void AudioPlayerWidget::on_btn_volume_clicked()
     auto& [mute, lastvalue] = slidersoundstate;
     mute = !mute;
     if (mute) {
-        ui->btn_volume->setIcon(QIcon(":/images/mute.bmp"));
+        ui->btn_volume->setIcon(QIcon(":/images/mute.svg"));
         int lastvalue_ = ui->slider_sound->value();
         lastvalue = lastvalue_;
         ui->slider_sound->setValue(0);
     } else {
-        ui->btn_volume->setIcon(QIcon(":/images/volumn.bmp"));
+        ui->btn_volume->setIcon(QIcon(":/images/audio.svg"));
         ui->slider_sound->setValue(lastvalue);
     }
 }

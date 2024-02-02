@@ -40,18 +40,9 @@
           <property name="text">
            <string>屏幕录制</string>
           </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btn_videoplayer">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>视频播放</string>
+          <property name="icon">
+           <iconset resource="../../resource/images/images.qrc">
+            <normaloff>:/images/camera.svg</normaloff>:/images/camera.svg</iconset>
           </property>
          </widget>
         </item>
@@ -64,7 +55,31 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>音频播放</string>
+           <string>音乐播放器</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../resource/images/images.qrc">
+            <normaloff>:/images/music.svg</normaloff>:/images/music.svg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>23</width>
+            <height>23</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_imageformat">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>图片格式转换</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../resource/images/images.qrc">
+            <normaloff>:/images/image.svg</normaloff>:/images/image.svg</iconset>
           </property>
          </widget>
         </item>
@@ -98,12 +113,16 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu_file">
+   <widget class="QMenu" name="menu_set">
     <property name="title">
-     <string>文件</string>
+     <string>设置</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../../resource/images/images.qrc">
+      <normaloff>:/images/general.svg</normaloff>:/images/general.svg</iconset>
     </property>
     <addaction name="action_set"/>
    </widget>
@@ -111,19 +130,27 @@
     <property name="title">
      <string>帮助</string>
     </property>
+    <property name="icon">
+     <iconset resource="../../resource/images/images.qrc">
+      <normaloff>:/images/globe.svg</normaloff>:/images/globe.svg</iconset>
+    </property>
     <addaction name="action_feedback"/>
     <addaction name="action_about"/>
    </widget>
-   <widget class="QMenu" name="menu">
+   <widget class="QMenu" name="menu_theme">
     <property name="title">
      <string>主题</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../../resource/images/images.qrc">
+      <normaloff>:/images/skin.svg</normaloff>:/images/skin.svg</iconset>
     </property>
     <addaction name="action_dark"/>
     <addaction name="action_light"/>
    </widget>
-   <addaction name="menu_file"/>
+   <addaction name="menu_set"/>
    <addaction name="menu_help"/>
-   <addaction name="menu"/>
+   <addaction name="menu_theme"/>
   </widget>
   <action name="action_set">
    <property name="text">

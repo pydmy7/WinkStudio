@@ -3,8 +3,6 @@
 
 #include <QWidget>
 
-#include "Record/Recorder.h"
-
 namespace Ui {
 class ScreenRecoderWidget;
 }
@@ -24,14 +22,14 @@ public:
 private slots:
     void on_btn_opendir_clicked();
     void on_checkbox_keyecho_stateChanged(int state);
+    void on_btn_playstop_clicked();
+    void on_btn_pausecontinue_clicked();
 
 private:
     Ui::ScreenRecoderWidget *ui;
 
     int m_totseconds;
     QTimer* m_timer;
-
-    Recorder* m_recorder;
 
     void initMembers();
     void initSignalSlots();

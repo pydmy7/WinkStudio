@@ -1,8 +1,27 @@
 <RCC>
     <qresource prefix="/images">
         <file>wink.png</file>
-        <file>mute.bmp</file>
-        <file>volumn.bmp</file>
-        <file>xiaoheizi.jpg</file>
+        <file>audio.svg</file>
+        <file>play.svg</file>
+        <file>pause.svg</file>
+        <file>stop.svg</file>
+        <file>mute.svg</file>
+        <file>directory.svg</file>
+        <file>next.svg</file>
+        <file>previous.svg</file>
+        <file>general.svg</file>
+        <file>skin.svg</file>
+        <file>globe.svg</file>
+        <file>camera.svg</file>
+        <file>file.svg</file>
+        <file>video.svg</file>
+        <file>image.svg</file>
+        <file>music.svg</file>
+        <file>22close.png</file>
+        <file>22open.png</file>
+        <file>33close.png</file>
+        <file>33open.png</file>
+        <file>accessibility.svg</file>
+        <file>close.svg</file>
     </qresource>
 </RCC>

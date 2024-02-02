@@ -13,11 +13,11 @@ protected:
     virtual void paintEvent(QPaintEvent *event) override;
 
 private:
-    QImage m_image;
+    QPixmap m_pixmap;
     QTimer* m_timer;
 
 public slots:
-    void receiveImage(const QImage& image);
+    void receivePixmap(const QPixmap& pixmap);
 };
 
 #endif // OPENGLWIDGET_HPP

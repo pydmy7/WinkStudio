@@ -27,8 +27,11 @@ protected:
 private:
     Ui::AudioPlayerWidget *ui;
 
-    // ps.s 0:单曲循环/1:列表循环/2:随机播放
     int m_playmodetype;
+    enum class PlayModeType {
+        ListLoop = 0,
+        RandomPlayback = 1,
+    };
     const QVector<QString> m_playmodetext;
 
     QMediaPlayer* m_mediaplayer;
@@ -42,10 +45,11 @@ private:
     void initMembers();
     void initSignalSlots();
 
-    void listWidgetCurrentRowIncrement(int increment);
+    void listWidgetCurrentRowIncrement(int playstate = -1, int increment = 0);
 
 private slots:
     void generateContextMenu(const QPoint& pos);
+    void onPlaybackStateChanged(int state);
     void on_btn_up_clicked();
     void on_btn_down_clicked();
     void on_btn_playmode_clicked();

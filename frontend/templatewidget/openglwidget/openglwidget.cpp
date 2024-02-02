@@ -18,12 +18,11 @@ void OpenGLWidget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
-    painter.drawImage(this->rect(), m_image);
+    painter.drawPixmap(this->rect(), m_pixmap);
     event->accept();
 }
 
-void OpenGLWidget::receiveImage(const QImage &image)
+void OpenGLWidget::receivePixmap(const QPixmap &pixmap)
 {
-    m_image = image;
-    this->update();
+    m_pixmap = pixmap;
 }

@@ -1,11 +1,12 @@
-#include "config/config.hpp"
+#include "utility/config/config.hpp"
+#include "frontend/logindialog/logindialog.hpp"
 #include "frontend/mainwindow/mainwindow.hpp"
-// #include "plugin/keyecho.hpp"
-// #include "frontend/keyecholabel/keyecholabel.hpp"
 
 #include <QApplication>
+#include <QNetworkProxy>
 #include <QSharedMemory>
 #include <QMessageBox>
+#include <QPointer>
 
 inline void init() {
 #if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
@@ -19,6 +20,8 @@ inline void init() {
     QCoreApplication::setOrganizationDomain("https://github.com/pydmy7");
     QCoreApplication::setApplicationName("WinkStudio");
     QCoreApplication::setApplicationVersion("1.0(64bit)");
+
+    QNetworkProxy::setApplicationProxy(QNetworkProxy::NoProxy);
 }
 
 int main(int argc, char *argv[])
@@ -36,10 +39,9 @@ int main(int argc, char *argv[])
 
     config::initConfig();
 
-    // KeyEcho::getInstance().start();
-
-    // KeyEchoLabel keyecholabel;
-    // keyecholabel.show();
+    if (QPointer<LoginDialog> logindialog{new LoginDialog{}}; logindialog->exec() != QDialog::Accepted) {
+        return 0;
+    }
 
     MainWindow mw;
     mw.show();
