@@ -43,7 +43,8 @@ void LoginDialog::mouseMoveEvent(QMouseEvent *event)
 void LoginDialog::on_btn_login_clicked()
 {
     QString username = ui->lineedit_username->text();
-    QString password = encrypt(ui->lineedit_password->text());
+    // QString password = encrypt(ui->lineedit_password->text());
+    QString password = ui->lineedit_password->text();
     QVariant var;
     var.setValue(DataFormat::LoginClient{username, password});
     SocketThread* socketthread = new SocketThread{var};
@@ -61,7 +62,8 @@ void LoginDialog::on_btn_login_clicked()
 void LoginDialog::on_btn_signup_clicked()
 {
     QString username = ui->lineedit_username->text();
-    QString password = encrypt(ui->lineedit_password->text());
+    // QString password = encrypt(ui->lineedit_password->text());
+    QString password = ui->lineedit_password->text();
     QVariant var;
     var.setValue(DataFormat::SignupClient{username, password});
     SocketThread* socketthread = new SocketThread{var};
@@ -94,7 +96,7 @@ void LoginDialog::initSignalSlots()
     });
 }
 
-QString LoginDialog::encrypt(const QString &str)
+QString LoginDialog:: encrypt(const QString &str)
 {
     QCryptographicHash hash{QCryptographicHash::Md5};
     hash.addData(str.toLocal8Bit());

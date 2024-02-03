@@ -15,7 +15,7 @@ void SocketThread::run()
 {
     QTcpSocket socket;
 
-    socket.connectToHost("127.0.0.1", 20000);
+    socket.connectToHost("114.116.115.205", 4680);
     if (!socket.waitForConnected()) {
         std::cerr << "warning: socket connect fail!\n";
         std::cerr << "error info: " << socket.errorString().toStdString() << '\n';
@@ -54,5 +54,5 @@ void SocketThread::signup(QTcpSocket &socket)
         return;
     }
     DataFormat::SignupServer signupinfo = DataFormat::deSerialize<DataFormat::SignupServer>(socket.readAll());
-    emit loginResult(signupinfo.signupstate);
+    emit signupResult(signupinfo.signupstate);
 }

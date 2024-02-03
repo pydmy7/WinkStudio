@@ -14,6 +14,8 @@ struct LoginClient {
     QString password;
 
     friend QDataStream& operator>>(QDataStream& in, LoginClient& rhs) {
+        qint8 a;
+        in >> a;
         in >> rhs.username >> rhs.password;
         return in;
     }
@@ -29,6 +31,8 @@ struct LoginServer {
     bool loginstate;
 
     friend QDataStream& operator>>(QDataStream& in, LoginServer& rhs) {
+        qint8 a;
+        in >> a;
         in >> rhs.loginstate;
         return in;
     }
@@ -45,6 +49,8 @@ struct SignupClient {
     QString password;
 
     friend QDataStream& operator>>(QDataStream& in, SignupClient& rhs) {
+        qint8 a;
+        in >> a;
         in >> rhs.username >> rhs.password;
         return in;
     }
@@ -60,6 +66,8 @@ struct SignupServer {
     bool signupstate;
 
     friend QDataStream& operator>>(QDataStream& in, SignupServer& rhs) {
+        qint8 a;
+        in >> a;
         in >> rhs.signupstate;
         return in;
     }
