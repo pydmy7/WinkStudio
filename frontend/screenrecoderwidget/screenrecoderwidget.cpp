@@ -2,6 +2,7 @@
 #include "ui_screenrecoderwidget.h"
 
 #include "utility/config/config.hpp"
+#include "core/keyecho/keyecho.hpp"
 
 #include <QDateTime>
 #include <QTimer>
@@ -33,6 +34,8 @@ void ScreenRecoderWidget::initMembers()
     m_totseconds = 0;
     m_timer = new QTimer(this);
 
+    keyecho_ = std::make_unique<KeyEcho>();
+
     //
     // m_timer->start(1000 / 24);
     // connect(m_timer, &QTimer::timeout, this, [this]() {
@@ -54,11 +57,6 @@ void ScreenRecoderWidget::initSignalSlots()
 void ScreenRecoderWidget::on_btn_opendir_clicked()
 {
     QDesktopServices::openUrl(QUrl::fromLocalFile(config::fileaddress));
-}
-
-void ScreenRecoderWidget::on_checkbox_keyecho_stateChanged(int state)
-{
-    qDebug() << "checkbox state:" << state;
 }
 
 void ScreenRecoderWidget::on_btn_playstop_clicked()

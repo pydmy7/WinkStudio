@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include <memory>
+
 namespace Ui {
 class ScreenRecoderWidget;
 }
@@ -10,6 +12,8 @@ class ScreenRecoderWidget;
 QT_BEGIN_NAMESPACE
 class QTimer;
 QT_END_NAMESPACE
+
+class KeyEcho;
 
 class ScreenRecoderWidget : public QWidget
 {
@@ -21,7 +25,6 @@ public:
 
 private slots:
     void on_btn_opendir_clicked();
-    void on_checkbox_keyecho_stateChanged(int state);
     void on_btn_playstop_clicked();
     void on_btn_pausecontinue_clicked();
 
@@ -30,6 +33,8 @@ private:
 
     int m_totseconds;
     QTimer* m_timer;
+
+    std::unique_ptr<KeyEcho> keyecho_;
 
     void initMembers();
     void initSignalSlots();
