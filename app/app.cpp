@@ -9,6 +9,11 @@
 #include <QPointer>
 
 inline void init() {
+    QFont font;
+    font.setStyleStrategy(QFont::PreferAntialias);
+    font.setHintingPreference(QFont::PreferFullHinting);
+    QApplication::setFont(font);
+
 #if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
     QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::Floor);
 #elif (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
