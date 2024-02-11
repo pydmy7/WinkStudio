@@ -1,7 +1,7 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 
-#include "utility/config/config.hpp"
+#include "utils/config/config.hpp"
 #include "frontend/dialogabout/dialogabout.hpp"
 #include "frontend/dialogset/dialogset.hpp"
 #include "frontend/screenrecoderwidget/screenrecoderwidget.hpp"

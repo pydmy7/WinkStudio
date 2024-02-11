@@ -24,7 +24,7 @@ RESOURCES += \
     $$PWD/resource/images/images.qrc
 
 include(3rdparty/3rdparty.pro)
-include(utility/utility.pro)
+include(utils/utils.pro)
 include(network/network.pro)
 include(core/core.pro)
 include(frontend/frontend.pro)

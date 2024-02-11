@@ -12,9 +12,9 @@ set(CMAKE_AUTORCC ON)
 add_executable(${PROJECT_NAME}
   main.cpp
   client.cpp
-  client.h
+  client.hpp
   server.cpp
-  server.h
+  server.hpp
   dataformat.hpp
   database.hpp database.cpp
 )

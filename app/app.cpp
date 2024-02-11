@@ -1,4 +1,4 @@
-#include "utility/config/config.hpp"
+#include "utils/config/config.hpp"
 #include "frontend/logindialog/logindialog.hpp"
 #include "frontend/mainwindow/mainwindow.hpp"
 

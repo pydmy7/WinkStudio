@@ -1,6 +1,6 @@
 #include "socketthread.hpp"
 
-#include "utility/dataformat/dataformat.hpp"
+#include "utils/dataformat/dataformat.hpp"
 
 #include <string>
 #include <iostream>
@@ -15,7 +15,7 @@ void SocketThread::run()
 {
     QTcpSocket socket;
 
-    socket.connectToHost("114.116.115.205", 20000);
+    socket.connectToHost("114.116.115.205", 4680);
     if (!socket.waitForConnected()) {
         std::cerr << "warning: socket connect fail!\n";
         std::cerr << "error info: " << socket.errorString().toStdString() << '\n';

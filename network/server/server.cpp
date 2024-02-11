@@ -1,6 +1,6 @@
-#include "server.h"
+#include "server.hpp"
 
-#include "client.h"
+#include "client.hpp"
 
 Server::Server(QObject *parent)
     : QTcpServer{parent}

@@ -1,8 +1,9 @@
 #include "screenrecoderwidget.hpp"
 #include "ui_screenrecoderwidget.h"
 
-#include "utility/config/config.hpp"
+#include "utils/config/config.hpp"
 #include "core/keyecho/keyecho.hpp"
+#include "core/record/record.hpp"
 
 #include <QDateTime>
 #include <QTimer>
@@ -25,6 +26,7 @@ ScreenRecoderWidget::~ScreenRecoderWidget()
     delete ui;
 
     delete m_timer;
+    delete grabscreentimer_;
 }
 
 void ScreenRecoderWidget::initMembers()
@@ -33,17 +35,13 @@ void ScreenRecoderWidget::initMembers()
 
     m_totseconds = 0;
     m_timer = new QTimer(this);
+    m_timer->setInterval(1000);
 
     keyecho_ = std::make_unique<KeyEcho>();
+    record_ = std::make_unique<Record>();
 
-    //
-    // m_timer->start(1000 / 24);
-    // connect(m_timer, &QTimer::timeout, this, [this]() {
-    //     QScreen *screen = QApplication::primaryScreen();
-    //     QPixmap pixmap = screen->grabWindow();
-    //     ui->openglwidget->receivePixmap(pixmap);
-    // });
-    //
+    grabscreentimer_ = new QTimer(this);
+    // grabscreentimer_->start(1000 / 24);
 }
 
 void ScreenRecoderWidget::initSignalSlots()
@@ -52,11 +50,17 @@ void ScreenRecoderWidget::initSignalSlots()
         ++m_totseconds;
         ui->lcdnumber->display(m_totseconds);
     });
+    connect(grabscreentimer_, &QTimer::timeout, this, [this]() {
+        QScreen *screen = QApplication::primaryScreen();
+        QPixmap pixmap = screen->grabWindow();
+        ui->openglwidget->receivePixmap(pixmap);
+    });
 }
 
 void ScreenRecoderWidget::on_btn_opendir_clicked()
 {
-    QDesktopServices::openUrl(QUrl::fromLocalFile(config::fileaddress));
+    // QDesktopServices::openUrl(QUrl::fromLocalFile(config::fileaddress));
+    QDesktopServices::openUrl(QUrl::fromLocalFile("D:/ors-studio/"));
 }
 
 void ScreenRecoderWidget::on_btn_playstop_clicked()
@@ -65,11 +69,15 @@ void ScreenRecoderWidget::on_btn_playstop_clicked()
     if (text == "开始录制") {
         text = "停止录制";
         ui->btn_pausecontinue->setVisible(true);
+        m_timer->start();
         // play();
+        record_->start();
     } else {
         text = "开始录制";
         ui->btn_pausecontinue->setVisible(false);
+        m_timer->stop();
         // stop();
+        record_->stop();
     }
     ui->btn_playstop->setText(text);
 }

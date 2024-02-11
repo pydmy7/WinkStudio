@@ -14,6 +14,7 @@ class QTimer;
 QT_END_NAMESPACE
 
 class KeyEcho;
+class Record;
 
 class ScreenRecoderWidget : public QWidget
 {
@@ -33,8 +34,10 @@ private:
 
     int m_totseconds;
     QTimer* m_timer;
+    QTimer* grabscreentimer_;
 
     std::unique_ptr<KeyEcho> keyecho_;
+    std::unique_ptr<Record> record_;
 
     void initMembers();
     void initSignalSlots();

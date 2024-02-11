@@ -1,10 +1,12 @@
-#include "client.h"
+#include "client.hpp"
 
 #include "dataformat.hpp"
 #include "database.hpp"
 
 #include <QThread>
 #include <QDebug>
+
+#include <iostream>
 
 Client::Client(qintptr handle)
     : QObject{nullptr}
@@ -32,7 +34,7 @@ void Client::run()
     } else if (type == DataFormat::SignupClient::type) {
         signup(socket, request);
     } else {
-        assert(false);
+        ddosSiege(socket);
     }
 
     socket->waitForBytesWritten();
@@ -40,6 +42,12 @@ void Client::run()
     socket->deleteLater();
 
     qInfo() << "handle:" << handle_ << "done on thread:" << QThread::currentThread();
+}
+
+void Client::ddosSiege(QTcpSocket *socket)
+{
+    std::cerr << "ddos!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
+    socket->write("?");
 }
 
 void Client::login(QTcpSocket* socket, QByteArray &bytes)

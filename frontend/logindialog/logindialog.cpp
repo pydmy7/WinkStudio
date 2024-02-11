@@ -2,7 +2,7 @@
 #include "ui_logindialog.h"
 
 #include "network/socketthread.hpp"
-#include "utility/dataformat/dataformat.hpp"
+#include "utils/dataformat/dataformat.hpp"
 
 #include <QCryptographicHash>
 #include <QMouseEvent>

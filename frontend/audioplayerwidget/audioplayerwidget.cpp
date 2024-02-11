@@ -1,8 +1,8 @@
 #include "audioplayerwidget.hpp"
 #include "ui_audioplayerwidget.h"
 
-#include "utility/algorithm/strhash/strhash.hpp"
-#include "utility/algorithm/kmp/kmp.hpp"
+#include "utils/algorithm/strhash/strhash.hpp"
+#include "utils/algorithm/kmp/kmp.hpp"
 
 #include <QMediaPlayer>
 #include <QMediaMetaData>

@@ -17,6 +17,7 @@ public:
 private:
     qintptr handle_;
 
+    void ddosSiege(QTcpSocket* socket);
     void login(QTcpSocket* socket, QByteArray& bytes);
     void signup(QTcpSocket* socket, QByteArray& bytes);
 };

@@ -68,9 +68,11 @@ CMakeLists.txt.user*
 *.pyc
 
 # Binaries
-# --------
-# *.dll
-# *.exe
+*.dll
+*.exe
 
 # my define
 msvc_make.bat
+3rdparty/Carnac
+3rdparty/ORS
+

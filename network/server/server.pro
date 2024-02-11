@@ -1,8 +1,8 @@
 # HEADERS += \
-#     $$PWD/client.h \
+#     $$PWD/client.hpp \
 #     $$PWD/database.hpp \
 #     $$PWD/dataformat.hpp \
-#     $$PWD/server.h
+#     $$PWD/server.hpp
 
 # SOURCES += \
 #     $$PWD/client.cpp \

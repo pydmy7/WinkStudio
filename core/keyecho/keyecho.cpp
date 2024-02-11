@@ -12,6 +12,6 @@ KeyEcho::KeyEcho()
 
 KeyEcho::~KeyEcho()
 {
-    this->kill();
     this->terminate();
+    this->kill();
 }

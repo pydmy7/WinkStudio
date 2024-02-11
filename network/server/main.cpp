@@ -19,7 +19,7 @@
 
 #include <QCoreApplication>
 
-#include "server.h"
+#include "server.hpp"
 
 #include <QString>
 
