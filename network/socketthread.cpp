@@ -11,11 +11,10 @@ SocketThread::SocketThread(const QVariant& info)
     info_ = info;
 }
 
-void SocketThread::run()
-{
+void SocketThread::run() {
     QTcpSocket socket;
 
-    socket.connectToHost("114.116.115.205", 4680);
+    socket.connectToHost("114.116.115.205", 20000);
     if (!socket.waitForConnected()) {
         std::cerr << "warning: socket connect fail!\n";
         std::cerr << "error info: " << socket.errorString().toStdString() << '\n';
@@ -33,8 +32,7 @@ void SocketThread::run()
     socket.close();
 }
 
-void SocketThread::login(QTcpSocket& socket)
-{
+void SocketThread::login(QTcpSocket& socket) {
     socket.write(DataFormat::serialize(info_.value<DataFormat::LoginClient>()));
     if (!socket.waitForReadyRead()) {
         std::cerr << "warning: socket read fail!\n";
@@ -45,8 +43,7 @@ void SocketThread::login(QTcpSocket& socket)
     emit loginResult(logininfo.loginstate);
 }
 
-void SocketThread::signup(QTcpSocket &socket)
-{
+void SocketThread::signup(QTcpSocket &socket) {
     socket.write(DataFormat::serialize(info_.value<DataFormat::SignupClient>()));
     if (!socket.waitForReadyRead()) {
         std::cerr << "warning: socket read fail!\n";

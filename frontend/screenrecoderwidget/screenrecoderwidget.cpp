@@ -41,7 +41,7 @@ void ScreenRecoderWidget::initMembers()
     record_ = std::make_unique<Record>();
 
     grabscreentimer_ = new QTimer(this);
-    // grabscreentimer_->start(1000 / 24);
+    grabscreentimer_->start(1000 / 24);
 }
 
 void ScreenRecoderWidget::initSignalSlots()
